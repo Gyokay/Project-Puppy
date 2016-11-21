@@ -1,0 +1,6 @@
+front end:
+	-register page:
+		*client side validation
+		*better design
+
+back end:

@@ -10,9 +10,12 @@ html
     link(rel="stylesheet" href="/components/Skeleton-2.0.4/css/skeleton.css")
     //- script(src="js/vendor/modernizr-2.8.3.min.js")
 
-    body
-      .container
-        .row
-          .one-half.column
-            h1 Hue... hue...
-      script(src="/components/jquery/dist/jquery.js")
+    block head
+
+  body
+    .container
+      block content
+
+    script(src="/components/jquery/dist/jquery.js")
+
+  block scripts

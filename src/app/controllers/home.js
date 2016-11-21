@@ -11,10 +11,7 @@ const pageTitle = 'Project Puppy'
 // })
 
 router.get('/', (req, res) => {
-  db.Users.insertUser('someUsername')
-    .then(user => {
-      res.render('base-layout', { pageTitle })
-    })
+  
 })
 
 module.exports = router

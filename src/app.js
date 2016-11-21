@@ -2,6 +2,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const path = require('path')
+const expressValidator = require('express-validator')
+const expressSession = require('express-session')
 
 const app = express()
 
@@ -26,8 +28,18 @@ app.set('view engine', 'pug')
 app.use(express.static(path.join(__dirname, '/public')))
 
 // body-parser setup
-app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}))
+
+// express-validator setup
+app.use(expressValidator())
+
+// express-session setup
+app.use(expressSession({
+  secret: 'everything small is just a small version of something big',
+  saveUninitialized: false,
+  resave: false
+}))
 
 // load controllers
 app.use(require('./app/controllers'))

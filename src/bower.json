@@ -1,0 +1,23 @@
+{
+  "name": "project-puppy",
+  "description": "Pet adoption platform",
+  "main": "app.js",
+  "authors": [
+    "Gyokay Ahmed"
+  ],
+  "license": "GPL-3.0",
+  "keywords": [
+    "pet",
+    "puppy",
+    "adopt",
+    "cuteness"
+  ],
+  "homepage": "https://github.com/Gyokay/Project-Puppy",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

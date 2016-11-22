@@ -3,21 +3,20 @@ const router = express.Router()
 const db = require('../data')
 
 router.get('/', (req, res) => {
+  console.log(req.session.errors)
   res.render('register', { success: req.session.success, errors: req.session.errors })
+
   req.session.destroy()
 })
 
 router.post('/', (req, res) => {
-  req.checkBody('username', 'Invalid Username')
-    .notEmpty()
+  req.checkBody('username', 'Username must be in the rang 6 - 20 characters')
     .len(6, 20)
 
   req.checkBody('email', 'Invalid Email')
-    .notEmpty()
     .isEmail()
 
-  req.checkBody('password', 'Invalid Password')
-    .notEmpty()
+  req.checkBody('password', 'Password must be in the rang 6 - 20 charactersd')
     .len(6, 20)
 
   let errors = req.validationErrors()

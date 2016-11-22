@@ -1,40 +1,54 @@
 extends base-layout
 
-block content
-  .row
-    if success
-      h1 Registered!
-    if errors
-      each error in errors
-        h3= error.msg
+block append head
+  link(rel='stylesheet' href='/components/css/register.css')
 
-    form(action='/register', method='post')
-      .row
-        .six.columns
-          label(for='usernameInput') Your Username
-          input(
-            type='text'
-            id='usernameInput'
-            name='username'
-          )
-        .six.columns
-          label(for='emailInput') Your Email
-          input(
-            type='email'
-            id='emailInput'
-            name='email'
-          )
-        .six.columns
-          label(for='passwordInput') Your Password
-          input(
-            type='password'
-            id='passwordInput'
-            name='password'
-          )
-      input(
-        class='button-primary submit'
-        type='submit'  
-      )
+block content
+  if success
+    h1 Registered!
+  if errors
+    each error in errors
+      h3= error.msg
+
+  form(action='/register', method='post')
+    .row
+      .one-third.column &nbsp;
+      .one-third.column 
+        input(
+          type='text'
+          id='usernameInput'
+          name='username'
+          placeholder='username'
+        )
+      .one-third.column &nbsp;
+    .row
+      .one-third.column &nbsp;
+      .one-third.column
+        input(
+          type='email'
+          id='emailInput'
+          name='email'
+          placeholder='email'
+        )
+      .one-third.column &nbsp;
+    .row
+      .one-third.column &nbsp;
+      .one-third.column
+        input(
+          type='password'
+          id='passwordInput'
+          name='password'
+          placeholder='password'
+        )
+      .one-third.column &nbsp;
+    .row
+      .one-third.column &nbsp;
+      .one-third.column
+        input(
+          class='button-primary submit'
+          type='submit'  
+        )
+      .one-third.column &nbsp;
     
 //- block append scripts
 //-   script(src='/js/register.js')

@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const path = require('path')
 const expressValidator = require('express-validator')
 const expressSession = require('express-session')
+const passport = require('passport')
+const flash = require('connect-flash')
 
 const app = express()
 
@@ -13,6 +15,9 @@ mongoose.connect('mongodb://localhost/test')
 mongoose.connection
   .on('error', console.error.bind(console, 'connection error:'))
   .once('open', () => console.log('DB connection successful!'))
+
+// passport configurations
+require('./app/config/passport')
 
 // view engine setup
 app.set('views', './app/views')
@@ -40,6 +45,13 @@ app.use(expressSession({
   saveUninitialized: false,
   resave: false
 }))
+
+// falsh setup
+app.use(flash())
+
+// passport setup
+app.use(passport.initialize())
+app.use(passport.session())
 
 // load controllers
 app.use(require('./app/controllers'))

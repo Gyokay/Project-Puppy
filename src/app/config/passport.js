@@ -9,14 +9,14 @@ passport.serializeUser(function (user, done) {
 })
 
 passport.deserializeUser(function (username, done) {
-  db.Users.getSingleUserByUserName(username)
+  db.Users.getUserByUsername(username)
     .then(user => {
       done(null, user)
     })
 })
 
 passport.use(new LocalStrategy((username, password, done) => {
-  db.Users.getSingleUserByUserName(username)
+  db.Users.getUserByUsername(username)
     .then(user => {
       if (!user) {
         return done(null, false, { message: 'Incorect username.' })

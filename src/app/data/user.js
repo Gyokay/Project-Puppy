@@ -16,32 +16,9 @@ function insertUser (username, email, password) {
   })
 }
 
-function getUserById (id) {
+function getUserByUsername (username) {
   return new Promise((resolve, reject) => {
-    User.findById(id, (err, user) => {
-      if (err) {
-        console.log(err)
-      }
-      resolve(user)
-    })
-  })
-}
-
-function getSingleUserByUserName (username) {
-  return new Promise((resolve, reject) => {
-    User.findOne({ username }, (err, user) => {
-      if (err) {
-        console.log(err)
-      }
-      resolve(user)
-    })
-  })
-}
-
-function getUsersByUsername (username) {
-  return new Promise((resolve, reject) => {
-    // returns an array of Users
-    User.find({ username }, (err, users) => {
+    User.findOne({ username }, (err, users) => {
       if (err) {
         console.log(err)
       }
@@ -50,9 +27,9 @@ function getUsersByUsername (username) {
   })
 }
 
-function getUsersByEmail (email) {
+function getUserByEmail (email) {
   return new Promise((resolve, reject) => {
-    User.find({ email }, (err, users) => {
+    User.findOne({ email }, (err, users) => {
       if (err) {
         console.log(err)
       }
@@ -63,8 +40,6 @@ function getUsersByEmail (email) {
 
 module.exports = {
   insertUser,
-  getUsersByUsername,
-  getUsersByEmail,
-  getSingleUserByUserName,
-  getUserById
+  getUserByUsername,
+  getUserByEmail
 }

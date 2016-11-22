@@ -1,3 +1,19 @@
-html
-  h1 Home Page
-  h2= username
+extends base-layout
+
+block append head
+
+block content
+  .row
+    .twelve.column
+      h1 Project Puppy
+      h5 Pet adopion platform
+
+  if !user
+    .row
+      .three.columns
+        a(class='button button-primary' href='/register') Register
+      .three.columns
+        a(class='button' href='/login') Login
+  .row
+    .six.column.u-max-full-width
+      img(src='/img/pug.svg')

@@ -1,14 +1,15 @@
 const express = require('express')
 const router = express.Router()
+const bcrypt = require('bcrypt-nodejs')
+
 const db = require('../data')
 
 router.get('/', (req, res) => {
-  console.log(req.session.errors)
   res.render('register', { success: req.session.success, errors: req.session.errors })
-
   req.session.destroy()
 })
 
+// damn big controller
 router.post('/', (req, res) => {
   req.checkBody('username', 'Username must be in the rang 6 - 20 characters')
     .len(6, 20)
@@ -41,7 +42,7 @@ router.post('/', (req, res) => {
 
         if (arr[1].length !== 0) {
           req.session.success = false
-          validationErrors.push({param: 'email', msg: 'This email is already used', value: arr[1][0].email})
+          validationErrors.push({ param: 'email', msg: 'This email is already used', value: arr[1][0].email })
           req.session.errors = validationErrors
         }
 
@@ -50,7 +51,9 @@ router.post('/', (req, res) => {
         }
 
         if (arr[0].length === 0 && arr[1].length === 0) {
-          db.Users.insertUser(req.body.username, req.body.email, req.body.password)
+          let passHash = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(5), null)
+
+          db.Users.insertUser(req.body.username, req.body.email, passHash)
             .then(user => {
               req.session.success = true
               res.redirect('/register')

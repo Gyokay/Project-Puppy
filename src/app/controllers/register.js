@@ -27,22 +27,24 @@ router.post('/', (req, res) => {
     req.session.success = false
     res.redirect('/register')
   } else {
-    let validateUniqueUsername = db.Users.getUsersByUsername(req.body.username)
-    let validateUniqueEmail = db.Users.getUsersByEmail(req.body.email)
+    let validateUniqueUsername = db.Users.getUserByUsername(req.body.username)
+    let validateUniqueEmail = db.Users.getUserByEmail(req.body.email)
 
     Promise.all([validateUniqueUsername, validateUniqueEmail])
-      .then(arr => {
+      .then(users => {
         let validationErrors = []
 
-        if (arr[0].length !== 0) {
+        console.log(users)
+
+        if (users[0]) {
           req.session.success = false
-          validationErrors.push({ param: 'username', msg: 'This username is already taken ;(', value: arr[0][0].username })
+          validationErrors.push({ param: 'username', msg: 'This username is already taken ;(', value: users[0].username })
           req.session.errors = validationErrors
         }
 
-        if (arr[1].length !== 0) {
+        if (users[1]) {
           req.session.success = false
-          validationErrors.push({ param: 'email', msg: 'This email is already used', value: arr[1][0].email })
+          validationErrors.push({ param: 'email', msg: 'This email is already used', value: users[1].email })
           req.session.errors = validationErrors
         }
 
@@ -50,7 +52,7 @@ router.post('/', (req, res) => {
           res.redirect('/register')
         }
 
-        if (arr[0].length === 0 && arr[1].length === 0) {
+        if (!users[0] && !users[1]) {
           let passHash = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(5), null)
 
           db.Users.insertUser(req.body.username, req.body.email, passHash)

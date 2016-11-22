@@ -1,0 +1,42 @@
+extends base-layout
+
+block append head
+  //- link(rel='stylesheet' href='/components/css/register.css')
+
+block content
+  if hasMesseges
+    each msg in messeges
+      h1= msg
+
+  form(action='/login', method='post')
+    .row
+      .one-third.column &nbsp;
+      .one-third.column 
+        input(
+          type='text'
+          id='usernameInput'
+          name='username'
+          placeholder='username'
+        )
+      .one-third.column &nbsp;
+    .row
+      .one-third.column &nbsp;
+      .one-third.column
+        input(
+          type='password'
+          id='passwordInput'
+          name='password'
+          placeholder='password'
+        )
+      .one-third.column &nbsp;
+    .row
+      .one-third.column &nbsp;
+      .one-third.column
+        input(
+          class='button-primary submit'
+          type='submit'  
+        )
+      .one-third.column &nbsp;
+    
+//- block append scripts
+//-   script(src='/js/register.js')

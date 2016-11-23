@@ -1,0 +1,72 @@
+extends base-layout
+
+block append head
+  //- put custom css here
+
+block content
+  form(action='/create-post' method='post')
+    .row
+      .three.columns &nbsp;
+      .six.columns
+        input(
+          class='u-full-width'
+          type='text'
+          id='titleInput'
+          name='title'
+          placeholder='title'
+        )
+      .three.columns &nbsp;
+    .row
+        .three.columns &nbsp;
+        .six.columns
+          textarea(
+            id='descriptionInput'
+            class='u-full-width'
+            name='description'
+            placeholder='description'
+          )
+        .three.columns &nbsp;
+    .row
+      .three.columns &nbsp;
+      .three.columns
+        select(
+          id='towns'
+          class='u-full-width'
+          name='town'
+        )
+      .three.columns
+        select(
+          id='petType'
+          class='u-full-width'
+          name='petType'
+        )
+          option(value='cat') cat
+          option(value='dog') dog
+          option(value='other') other
+    .row
+      .three.columns &nbsp;
+      .six.columns
+        input(
+          type='file'
+          name='img'
+          placeholder='upload images'
+          multiple
+        )
+      .three.columns &nbsp;
+    .row
+      .three.columns &nbsp;
+      .six.columns
+        input(
+          class='button-primary submit u-full-width'
+          type='submit'
+          value='Publish'
+        )
+      .three.columns &nbsp;
+block append scripts
+  script(src='/js/create-post.js')
+
+      //- <select class="u-full-width" id="exampleRecipientInput">
+      //-   <option value="Option 1">Questions</option>
+      //-   <option value="Option 2">Admiration</option>
+      //-   <option value="Option 3">Can I get your number?</option>
+      //- </select>

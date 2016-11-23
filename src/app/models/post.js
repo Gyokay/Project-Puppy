@@ -25,6 +25,13 @@ let postSchema = new Schema({
     type: String,
     enum: ['cat', 'dog', 'other'],
     require: true
+  },
+  imgUrls: {
+    type: [String]
+  },
+  isArchived: {
+    type: Boolean,
+    required: true
   }
 })
 

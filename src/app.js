@@ -11,7 +11,7 @@ const app = express()
 
 // mongoose setup
 mongoose.Promise = global.Promise // prevents the "depecated promise" message
-mongoose.connect('mongodb://localhost/test')
+mongoose.connect('mongodb://localhost/ProjectPuppyDB')
 mongoose.connection
   .on('error', console.error.bind(console, 'connection error:'))
   .once('open', () => console.log('DB connection successful!'))

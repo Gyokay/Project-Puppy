@@ -11,7 +11,6 @@ const pageTitle = 'Project Puppy'
 // })
 
 router.get('/', (req, res) => {
-  console.log(req.user)
   res.render('home', {user: req.user})
 })
 

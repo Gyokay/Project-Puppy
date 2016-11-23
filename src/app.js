@@ -56,6 +56,11 @@ app.use(passport.session())
 // load controllers
 app.use(require('./app/controllers'))
 
+// error handler
+// app.use((err, req, res, next) => {
+
+// })
+
 // start app
 app.listen(3000, function () {
   console.log('App listening on port 3000!')

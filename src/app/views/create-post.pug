@@ -4,7 +4,14 @@ block append head
   //- put custom css here
 
 block content
-  form(action='/create-post' method='post')
+  if error
+    h1= error
+
+  form(
+    enctype="multipart/form-data"
+    action='/post/create-post'
+    method='post'
+  )
     .row
       .three.columns &nbsp;
       .six.columns

@@ -1,6 +1,6 @@
 const Post = require('../models/post')
 
-function insertPost (ownerUsername, title, description, town, petType) {
+function insertPost (ownerUsername, title, description, town, petType, imgUrls) {
   return new Promise((resolve, reject) => {
     let newPost = new Post({
       ownerUsername,
@@ -8,7 +8,9 @@ function insertPost (ownerUsername, title, description, town, petType) {
       description,
       town,
       petType,
-      date: new Date()
+      imgUrls,
+      date: new Date(),
+      isArchived: false
     })
 
     newPost.save((err, post) => {

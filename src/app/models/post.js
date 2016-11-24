@@ -13,7 +13,7 @@ let postSchema = new Schema({
   description: {
     type: String
   },
-  date: {
+  creationDate: {
     type: Date,
     require: true
   },

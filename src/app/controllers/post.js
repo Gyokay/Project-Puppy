@@ -34,6 +34,20 @@ router.post('/create-post',
     // on post:
     // file size and extention
 
+    function insertPostToDB () {
+      // add new post to DB
+      db.Post.insertPost(
+        'USER', // hard coded username for test purposes. change in production !!!
+        req.body.title,
+        req.body.description,
+        req.body.town,
+        req.body.petPtype,
+        imgUrls
+      ).then(post => {
+        res.redirect(`/post/${post._id}`)
+      })
+    }
+
     let imgUrls = []
 
     let filesCount = req.files.length
@@ -52,6 +66,12 @@ router.post('/create-post',
     // can be extracted to another file
     // upload images to third party
     new Promise((resolve, reject) => {
+      // Check if photos are available in the request body
+      if (filesCount <= 0) {
+        insertPostToDB()
+        return
+      }
+
       req.files.forEach(file => {
         fs.createReadStream(file.path)
           .pipe(request(options, (err, response, body) => {
@@ -77,23 +97,12 @@ router.post('/create-post',
     })
       .then(() => {
         // console.log(imgUrls)
-
         // delete images from the file system
         req.files.forEach(file => {
           fs.unlink(file.path)
         })
 
-        // add new post to DB
-        db.Post.insertPost(
-          'USER', // hard coded username for test purposes. change in production !!!
-          req.body.title,
-          req.body.description,
-          req.body.town,
-          req.body.petPtype,
-          imgUrls
-        ).then(post => {
-          res.redirect(`/post/${post._id}`)
-        })
+        insertPostToDB()
       })
   })
 

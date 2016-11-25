@@ -11,7 +11,20 @@ const pageTitle = 'Project Puppy'
 // })
 
 router.get('/', (req, res) => {
-  res.render('home', {user: req.user})
+
+  // get user ip adress
+  let ip
+
+  if (req.headers['x-forwarded-for']) {
+    ip = req.headers['x-forwarded-for'].split(',')[0]
+  } else if (req.connection && req.connection.remoteAddress) {
+    ip = req.connection.remoteAddress
+  } else {
+    ip = req.ip
+  }
+
+  console.log(ip)
+  res.render('home', { user: req.user })
 })
 
 module.exports = router

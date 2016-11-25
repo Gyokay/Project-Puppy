@@ -15,16 +15,16 @@ let postSchema = new Schema({
   },
   creationDate: {
     type: Date,
-    require: true
+    required: true
   },
   town: {
     type: String,
-    require: true
+    required: true
   },
   petType: {
     type: String,
     enum: ['cat', 'dog', 'other'],
-    require: true
+    required: true
   },
   imgUrls: {
     type: [String]

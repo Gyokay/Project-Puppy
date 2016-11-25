@@ -1,27 +1,78 @@
 $(() => {
   'use strict'
 
+  let getLatesApiUrl = '/api/post/get-latest'
+  let getByTownApiUrl = '/api/post/get-by-town'
+  let getByPetTypeApiUrl = '/api/post/get-by-pet-type'
+  let getByTownAndPetTypeApiUrl = '/api/post/get-by-town-and-pet-type'
+
   let viewedPostsIds = []
   let noMoreResults = false
 
   let initialPopulate = true
   let initialPopulateCounter = 0
 
-  function getMorePosts() {
+  // poppulate initialy
+  getLatest(getLatesApiUrl, { viewedPostsIds })
+
+  function reset () {
+    viewedPostsIds = []
+    noMoreResults = false
+
+    initialPopulate = true
+    initialPopulateCounter = 0
+  }
+
+  function clearPosts () {
+    $('.postsContainer').empty()
+  }
+
+  $('#find').click(() => {
+    let town = $('#towns').val()
+    let petType = $('#petType').val()
+
+    // get latest if no options are selected
+    if (town === null && petType === null) {
+      reset()
+      getLatest(getLatesApiUrl, { viewedPostsIds })
+      clearPosts()
+      return
+    }
+
+    // get by town
+    if (town !== null && petType === null) {
+      reset()
+      getLatest(getByTownApiUrl, { viewedPostsIds, town })
+      clearPosts()
+      return
+    }
+
+    // get by pet type
+    if (petType !== null && town === null) {
+      reset()
+      getLatest(getByPetTypeApiUrl, { viewedPostsIds, petType })
+      clearPosts()
+      return
+    }
+
+    // get by town and pet type
+    if (town !== null && petType !== null) {
+      reset()
+      getLatest(getByTownAndPetTypeApiUrl, { viewedPostsIds, town, petType })
+      clearPosts()
+      return
+    }
+  })
+
+  function getLatest (url, options) {
     detachOnScrollevent()
 
     if (noMoreResults) {
       return
     }
 
-    $.ajax({
-      url: 'api/post/get-latest',
-      method: 'POST',
-      dataType: 'json',
-      data: {
-        viewedPostsIds
-      },
-      success: posts => {
+    makeRequest(url, options)
+      .then(posts => {
         if (
           posts.length === 0 ||
           posts === null ||
@@ -34,25 +85,24 @@ $(() => {
         posts.forEach(post => {
           viewedPostsIds.push(post._id)
         })
-        // console.log(posts)
+
         appendPostsToBody(posts)
 
-        attachOnScrollEvent()
+        attachOnScrollEvent(url, options)
 
         if (initialPopulate) {
-          getMorePosts()
+          getLatest(url, options)
           initialPopulateCounter++
 
-          if (initialPopulateCounter === 3) {
+          if (initialPopulateCounter > 3) {
             initialPopulate = false
           }
         }
-      }
-    })
+      })
   }
 
-  function appendPostsToBody(posts) {
-    let $container = $('.container')
+  function appendPostsToBody (posts) {
+    let $container = $('.postsContainer')
     let $row = $('<div></div>').addClass('row')
 
     posts.forEach(post => {
@@ -73,26 +123,30 @@ $(() => {
     $container.append($row)
   }
 
-  function detachOnScrollevent() {
+  function detachOnScrollevent () {
     $(window).off('scroll')
   }
 
-  function attachOnScrollEvent() {
+  function attachOnScrollEvent (url, options) {
     // loads new elements when scrolled to he bottom of the page
     $(window).on('scroll', () => {
       if ($(window).scrollTop() + $(window).height() === $(document).height()) {
-        getMorePosts()
+        getLatest(url, options)
       }
     })
   }
 
-  // click to load new elements
-  // for testing purposes
-  // $('.container').click(() => {
-  //   console.log('ckicked')
-  //   getMorePosts()
-  // })
-
-  // poppulate initialy
-  getMorePosts()
+  function makeRequest (url, data) {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url,
+        method: 'POST',
+        dataType: 'json',
+        data,
+        success: posts => {
+          resolve(posts)
+        }
+      })
+    })
+  }
 })

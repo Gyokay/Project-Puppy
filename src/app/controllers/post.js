@@ -41,7 +41,7 @@ router.post('/create-post',
         req.body.title,
         req.body.description,
         req.body.town,
-        req.body.petPtype,
+        req.body.petType,
         imgUrls
       ).then(post => {
         res.redirect(`/post/${post._id}`)

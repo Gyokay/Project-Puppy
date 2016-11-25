@@ -1,6 +1,6 @@
 const Post = require('../models/post')
 
-function insertPost(ownerUsername, title, description, town, petType, imgUrls) {
+function insertPost (ownerUsername, title, description, town, petType, imgUrls) {
   return new Promise((resolve, reject) => {
     let newPost = new Post({
       ownerUsername,
@@ -22,7 +22,7 @@ function insertPost(ownerUsername, title, description, town, petType, imgUrls) {
   })
 }
 
-function getPostById(_id) {
+function getPostById (_id) {
   return new Promise((resolve, reject) => {
     // Regular expression that checks for hex value
     var checkForHexRegExp = new RegExp('^[0-9a-fA-F]{24}$')
@@ -41,7 +41,7 @@ function getPostById(_id) {
   })
 }
 
-function getLatest(count, excludedPostIds) {
+function getLatest (count, excludedPostIds) {
   return new Promise((resolve, reject) => {
     Post.find({
       creationDate: { $lt: new Date() },
@@ -57,13 +57,71 @@ function getLatest(count, excludedPostIds) {
         resolve(posts)
       })
   })
-
-  // var q = Post.find({ "rating": { "$gte": 5 }, "_id": { "$nin": seenIds } })
-  //   .sort("rating").limit(10);
 }
+
+function getByTown (town, count, excludedPostIds) {
+  return new Promise((resolve, reject) => {
+    Post.find({
+      town,
+      _id: { $nin: excludedPostIds },
+      isArchived: false
+    })
+      .sort({ creationDate: 'desc' })
+      .limit(count)
+      .exec((err, posts) => {
+        if (err) {
+          console.log(err)
+        }
+        resolve(posts)
+      })
+  })
+}
+
+function getByPetType (petType, count, excludedPostIds) {
+  return new Promise((resolve, reject) => {
+    Post.find({
+      petType,
+      _id: { $nin: excludedPostIds },
+      isArchived: false
+    })
+      .sort({ creationDate: 'desc' })
+      .limit(count)
+      .exec((err, posts) => {
+        if (err) {
+          console.log(err)
+        }
+        resolve(posts)
+      })
+  })
+}
+
+function getByTownAndPetType (town, petType, count, excludedPostIds) {
+  return new Promise((resolve, reject) => {
+    Post.find({
+      town,
+      petType,
+      _id: { $nin: excludedPostIds },
+      isArchived: false
+    })
+      .sort({ creationDate: 'desc' })
+      .limit(count)
+      .exec((err, posts) => {
+        if (err) {
+          console.log(err)
+        }
+        resolve(posts)
+      })
+  })
+}
+
+// var q = Post.find({ "rating": { "$gte": 5 }, "_id": { "$nin": seenIds } })
+//   .sort("rating").limit(10);
 
 module.exports = {
   insertPost,
   getPostById,
-  getLatest
+  getLatest,
+  getByTown,
+  getByPetType,
+  getByTownAndPetType
 }

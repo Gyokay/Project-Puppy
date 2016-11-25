@@ -6,10 +6,45 @@ const db = require('../../data')
 const numberOfResultsPerReqest = 3
 
 router.post('/get-latest', (req, res) => {
-  console.log(req.body)
-  db.Post.getLatest(numberOfResultsPerReqest, req.body['viewedPostsIds[]'])
+  db.Post.getLatest(
+    numberOfResultsPerReqest,
+    req.body['viewedPostsIds[]']
+  )
     .then(posts => {
-      // console.log(posts)
+      res.send(posts)
+    })
+})
+
+router.post('/get-by-town', (req, res) => {
+  db.Post.getByTown(
+    req.body.town,
+    numberOfResultsPerReqest,
+    req.body['viewedPostsIds[]']
+  )
+    .then(posts => {
+      res.send(posts)
+    })
+})
+
+router.post('/get-by-pet-type', (req, res) => {
+  db.Post.getByPetType(
+    req.body.petType,
+    numberOfResultsPerReqest,
+    req.body['viewedPostsIds[]']
+  )
+    .then(posts => {
+      res.send(posts)
+    })
+})
+
+router.post('/get-by-town-and-pet-type', (req, res) => {
+  db.Post.getByTownAndPetType(
+    req.body.town,
+    req.body.petType,
+    numberOfResultsPerReqest,
+    req.body['viewedPostsIds[]']
+  )
+    .then(posts => {
       res.send(posts)
     })
 })
@@ -24,7 +59,7 @@ router.get('/populate', (req, res) => {
       'user',
       'some title',
       'simple description',
-      'София',
+      'Sofia',
       'cat',
       ['http://justcuteanimals.com/wp-content/uploads/2016/07/cute-funny-pug-life-shades-summer-dogs-puppy-animal-pictures.jpg']
     )

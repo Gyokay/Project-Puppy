@@ -9,6 +9,41 @@ block append head
 block content
   h1 Find Pet
 
+  .row
+    .three.columns &nbsp;
+    .three.columns
+      select(
+        id='towns'
+        class='u-full-width'
+        name='town'
+      )
+        option(
+          value=''
+          disabled
+          selected
+        ) select town
+    .three.columns
+      select(
+        id='petType'
+        class='u-full-width'
+        name='petType'
+      )
+        option(
+          value=''
+          disabled
+          selected
+        ) select animal
+        option(value='cat') cat
+        option(value='dog') dog
+        option(value='other') other
+    .three.columns
+      button(
+        id='find'
+        class='button-primary'
+      ) Find
+
+  .postsContainer
+
   //- .row
   //-   .one-third.column
   //-     a(
@@ -47,5 +82,6 @@ block content
 
 block append scripts
   //- script(src='/components/Croppie/croppie.js')
-
+  script(src='js/towns-populate.js')
   script(src='/js/find.js')
+  script(src='/js/find-geolocation.js')

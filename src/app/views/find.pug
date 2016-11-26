@@ -14,7 +14,7 @@ block content
     .three.columns
       select(
         id='towns'
-        class='u-full-width'
+        class='filter u-full-width'
         name='town'
       )
         option(
@@ -25,7 +25,7 @@ block content
     .three.columns
       select(
         id='petType'
-        class='u-full-width'
+        class='filter u-full-width'
         name='petType'
       )
         option(
@@ -36,11 +36,11 @@ block content
         option(value='cat') cat
         option(value='dog') dog
         option(value='other') other
-    .three.columns
-      button(
-        id='find'
-        class='button-primary'
-      ) Find
+    //- .three.columns
+    //-   button(
+    //-     id='find'
+    //-     class='button-primary'
+    //-   ) Find
 
   .postsContainer
 
@@ -84,4 +84,4 @@ block append scripts
   //- script(src='/components/Croppie/croppie.js')
   script(src='js/towns-populate.js')
   script(src='/js/find.js')
-  script(src='/js/find-geolocation.js')
+  //- script(src='/js/find-geolocation.js')

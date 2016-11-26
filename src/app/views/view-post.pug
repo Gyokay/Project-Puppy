@@ -1,3 +1,40 @@
-h1 View Post
+extends base-layout
 
-h1= title
+block append head
+  link(rel='stylesheet' href='/css/view-post.css')
+
+block content
+    .row 
+        .six.columns.image
+            img(
+                src=imgUrls[0]
+            )
+    .row
+        .five.columns 
+            h1=title
+    .row
+        .six.columns.postTitle
+            p Description
+        .six.columns
+            sapn=description
+    .row
+        .six.columns.postTitle
+            p Owner Username
+        .six.columns
+            sapn=ownerUsername
+    .row
+        .six.columns.postTitle
+            p Town
+        .six.columns
+            sapn=town
+    .row
+        .six.columns.postTitle
+            p Pet Pype
+        .six.columns
+            sapn=petPype
+    .row
+        .six.columns.postTitle
+            p Is Archived
+        .six.columns
+            sapn=isArchived
+

@@ -1,13 +1,13 @@
-$(() => {
+$(function () {
   // populates town options
   $.ajax({
     url: '/json-data/towns.json',
     method: 'get',
     dataType: 'json',
-    success: towns => {
+    success: function (towns) {
       let $townsField = $('#towns')
 
-      towns.forEach(town => {
+      towns.forEach(function (town) {
         let townName = town
 
         let $optionElement = $('<option></option>')

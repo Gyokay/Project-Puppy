@@ -1,10 +1,10 @@
-$(() => {
+$(function () {
   'use strict'
 
-  let getLatesApiUrl = '/api/post/get-latest'
-  let getByTownApiUrl = '/api/post/get-by-town'
-  let getByPetTypeApiUrl = '/api/post/get-by-pet-type'
-  let getByTownAndPetTypeApiUrl = '/api/post/get-by-town-and-pet-type'
+  const getLatesApiUrl = '/api/post/get-latest'
+  const getByTownApiUrl = '/api/post/get-by-town/'
+  const getByPetTypeApiUrl = '/api/post/get-by-pet-type'
+  const getByTownAndPetTypeApiUrl = '/api/post/get-by-town-and-pet-type'
 
   let viewedPostsIds = []
   let noMoreResults = false
@@ -15,7 +15,7 @@ $(() => {
   // poppulate initialy
   getLatest(getLatesApiUrl, { viewedPostsIds })
 
-  function reset () {
+  function reset() {
     viewedPostsIds = []
     noMoreResults = false
 
@@ -23,11 +23,11 @@ $(() => {
     initialPopulateCounter = 0
   }
 
-  function clearPosts () {
+  function clearPosts() {
     $('.postsContainer').empty()
   }
 
-  $('#find').click(() => {
+  $('.filter').change(function () {
     let town = $('#towns').val()
     let petType = $('#petType').val()
 
@@ -64,7 +64,7 @@ $(() => {
     }
   })
 
-  function getLatest (url, options) {
+  function getLatest(url, options) {
     detachOnScrollevent()
 
     if (noMoreResults) {
@@ -72,7 +72,7 @@ $(() => {
     }
 
     makeRequest(url, options)
-      .then(posts => {
+      .then(function (posts) {
         if (
           posts.length === 0 ||
           posts === null ||
@@ -82,7 +82,7 @@ $(() => {
           return
         }
 
-        posts.forEach(post => {
+        posts.forEach(function (post) {
           viewedPostsIds.push(post._id)
         })
 
@@ -101,11 +101,11 @@ $(() => {
       })
   }
 
-  function appendPostsToBody (posts) {
+  function appendPostsToBody(posts) {
     let $container = $('.postsContainer')
     let $row = $('<div></div>').addClass('row')
 
-    posts.forEach(post => {
+    posts.forEach(function (post) {
       let $oneThirdColumn = $('<div></div>').addClass('one-third column')
       let $anchor = $('<a></a>').attr('href', `/post/${post._id}`)
       let $imgContainer = $('<div></div>').addClass('image')
@@ -123,27 +123,27 @@ $(() => {
     $container.append($row)
   }
 
-  function detachOnScrollevent () {
+  function detachOnScrollevent() {
     $(window).off('scroll')
   }
 
-  function attachOnScrollEvent (url, options) {
+  function attachOnScrollEvent(url, options) {
     // loads new elements when scrolled to he bottom of the page
-    $(window).on('scroll', () => {
+    $(window).on('scroll', function () {
       if ($(window).scrollTop() + $(window).height() === $(document).height()) {
         getLatest(url, options)
       }
     })
   }
 
-  function makeRequest (url, data) {
-    return new Promise((resolve, reject) => {
+  function makeRequest(url, data) {
+    return new Promise(function (resolve, reject) {
       $.ajax({
         url,
         method: 'POST',
         dataType: 'json',
         data,
-        success: posts => {
+        success: function (posts) {
           resolve(posts)
         }
       })

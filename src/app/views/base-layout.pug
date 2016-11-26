@@ -8,13 +8,23 @@ html
 
     link(rel="stylesheet" href="/components/Skeleton-2.0.4/css/normalize.css")
     link(rel="stylesheet" href="/components/Skeleton-2.0.4/css/skeleton.css")
+    link(rel="stylesheet" href="/css/base-layout.css")
+
     //- script(src="js/vendor/modernizr-2.8.3.min.js")
 
     block head
 
   body
     .container
+      .row.pageTitle
+        .two.columns.u-max-full-width
+          a(href='/home')
+            img(class='logo' src='/img/pug.svg')
+        .eight.columns
+          h1 Project Puppy
+          h5 Pet adopion platform
       block content
+
 
     script(src="/components/jquery/dist/jquery.js")
 

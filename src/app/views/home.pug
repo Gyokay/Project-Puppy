@@ -4,18 +4,15 @@ block append head
 
 block content
   .row
-    .twelve.column
-      h1 Project Puppy
-      h5 Pet adopion platform
-
   if !user
-    .row
-      .three.columns
-        a(class='button button-primary' href='/find') Find Pet
       .three.columns
         a(class='button' href='/register') Register
       .three.columns
         a(class='button' href='/login') Login
-  .row
-    .six.column.u-max-full-width
-      img(src='/img/pug.svg')
+  else
+    .row
+      .twelve.columns
+        p(class='u-pull-right') Hello,&nbsp;
+          a(href=`/user/${user.username}`)= user.username
+  .three.columns
+    a(class='button button-primary' href='/find') Find Pet

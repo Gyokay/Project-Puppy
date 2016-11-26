@@ -9,6 +9,12 @@ block content
             img(
                 src=imgUrls[0]
             )
+    .row.postImages
+        each image in imgUrls
+            .six.columns.image
+                img(
+                    src=image
+                )
     .row
         .five.columns 
             h1=title

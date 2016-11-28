@@ -5,6 +5,10 @@ const bcrypt = require('bcrypt-nodejs')
 const db = require('../data')
 
 router.get('/', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.redirect('/home')
+  }
+
   res.render('register', { success: req.session.success, errors: req.session.errors })
   req.session.destroy()
 })

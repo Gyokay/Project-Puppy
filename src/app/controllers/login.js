@@ -3,6 +3,10 @@ const router = express.Router()
 const passport = require('passport')
 
 router.get('/', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.redirect('/home')
+  }
+
   let messeges = req.flash('error')
   res.render('login', { messeges, hasMesseges: messeges.length > 0 })
 })

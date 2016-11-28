@@ -16,3 +16,7 @@ block content
           a(href=`/user/${user.username}`)= user.username
   .three.columns
     a(class='button button-primary' href='/find') Find Pet
+
+block append scripts
+  script(src="/socket.io/socket.io.js")
+  script(src='/js/home.js')

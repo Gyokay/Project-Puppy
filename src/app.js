@@ -1,13 +1,15 @@
 const express = require('express')
+const app = express()
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const path = require('path')
 const expressValidator = require('express-validator')
-const expressSession = require('express-session')
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
+const MongoDBStore = require('connect-mongodb-session')(session)
 const passport = require('passport')
 const flash = require('connect-flash')
-
-const app = express()
+const server = require('http').Server(app)
 
 // mongoose setup
 mongoose.Promise = global.Promise // prevents the "depecated promise" message
@@ -16,9 +18,25 @@ mongoose.connection
   .on('error', console.error.bind(console, 'connection error:'))
   .once('open', () => console.log('DB connection successful!'))
 
+var sessionStore = new MongoDBStore(
+  {
+    uri: 'mongodb://localhost/ProjectPuppyDB',
+    collection: 'mySessions'
+  })
+
+app.use(session({
+  key: 'express.sid',
+  secret: 'This is a secret',
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+  },
+  store: sessionStore,
+  resave: true,
+  saveUninitialized: true
+}))
+
 // passport configurations
 require('./app/config/passport')
-
 // view engine setup
 app.set('views', './app/views')
 app.set('view engine', 'pug')
@@ -34,17 +52,10 @@ app.use(express.static(path.join(__dirname, '/public')))
 
 // body-parser setup
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({ extended: false }))
 
 // express-validator setup
 app.use(expressValidator())
-
-// express-session setup
-app.use(expressSession({
-  secret: 'everything small is just a small version of something big',
-  saveUninitialized: false,
-  resave: false
-}))
 
 // falsh setup
 app.use(flash())
@@ -52,6 +63,8 @@ app.use(flash())
 // passport setup
 app.use(passport.initialize())
 app.use(passport.session())
+
+require('./app/config/sockets')(server, sessionStore, cookieParser)
 
 // load controllers
 app.use(require('./app/controllers'))
@@ -62,6 +75,6 @@ app.use(require('./app/controllers'))
 // })
 
 // start app
-app.listen(3000, function () {
+server.listen(process.env.PORT || 3000, function () {
   console.log('App listening on port 3000!')
 })

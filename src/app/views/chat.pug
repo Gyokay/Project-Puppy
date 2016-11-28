@@ -4,11 +4,18 @@ block append head
   link(rel='stylesheet' href='/css/chat.css')
 
 block content
-
-  each name in uniqueUsernames
-    p(
-      class='receiver'
-    )= name
+  input(id='searchUser' type='text', placeholder='search user')
+  select(id='usernames')
+    option(
+      value=''
+      disabled
+      selected
+    )
+  .usernamesContainer
+    each name in uniqueUsernames
+      p(
+        class='receiver'
+      )= name
 
   ol.chat
   .row

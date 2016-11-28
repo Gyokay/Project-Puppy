@@ -44,7 +44,7 @@ function getPostById (_id) {
 function getLatest (count, excludedPostIds) {
   return new Promise((resolve, reject) => {
     Post.find({
-      creationDate: { $lt: new Date() },
+      // creationDate: { $lt: new Date() },
       _id: { $nin: excludedPostIds },
       isArchived: false
     })

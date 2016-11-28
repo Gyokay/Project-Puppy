@@ -10,13 +10,18 @@ router.get('/', (req, res) => {
 
   let uniqueUsernames = new Set()
 
-  db.Message.insert('posho', req.user.username)
-  db.Message.insert('posho', req.user.username)
-  db.Message.insert('gosho', req.user.username)
-  db.Message.insert('mitko', req.user.username)
-  db.Message.insert('patka', req.user.username)
-  db.Message.insert('posho', req.user.username)
-  db.Message.insert(req.user.username, 'salata')
+  // db.Message.insert('posho', req.user.username)
+  // db.Message.insert('posho', req.user.username)
+  // db.Message.insert('gosho', req.user.username)
+  // db.Message.insert('mitko', req.user.username)
+  // db.Message.insert('patka', req.user.username)
+  // db.Message.insert('posho', req.user.username)
+  // db.Message.insert(req.user.username, 'salata')
+
+  // db.Message.insert('hi', req.user.username, 'ssssssss')
+  // db.Message.insert('whats up', 'ssssssss', req.user.username)
+  // db.Message.insert('i am fine you', 'ssssssss', req.user.username)
+  // db.Message.insert('hi', 'pesho', req.user.username)
 
   db.Message.getAllUniqueSenderNamesByReceaver(req.user.username)
     .then(senderUsernames => {

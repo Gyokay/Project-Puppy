@@ -13,7 +13,7 @@ module.exports = (server, sessionStore, cookieParser) => {
   }))
 
   io.on('connection', socket => {
-    console.log(socket.request.user.username)
+    // console.log(socket.request.user.username)
     if (socket.request.isAuthenticated()) {
       // console.log(socket.request.sessionID)
       // console.log(socket.request.user.username)
@@ -24,7 +24,7 @@ module.exports = (server, sessionStore, cookieParser) => {
       db.Message.getUnseenMessagesCountByReceiver(socket.request.user.username)
         .then(count => {
           socket.emit('new messages count', count)
-          console.log(count)
+          // console.log(count)
         })
     }
 
@@ -55,7 +55,7 @@ module.exports = (server, sessionStore, cookieParser) => {
     })
 
     socket.on('disconnect', () => {
-      console.log(socket.request.user.username)
+      // console.log(socket.request.user.username)
       delete connectedUsers[socket.request.user.username]
       // console.log(connectedUsers)
     })

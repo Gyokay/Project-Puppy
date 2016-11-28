@@ -17,7 +17,7 @@ router.post('/getConversation', (req, res) => {
     numberOfMessagesPerRequest
   )
     .then(messages => {
-      console.log(messages)
+      // console.log(messages)
       messages.forEach(message => {
         db.Message.updateToSeenById(message._id)
       })

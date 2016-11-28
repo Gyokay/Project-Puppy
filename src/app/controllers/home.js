@@ -12,6 +12,10 @@ const pageTitle = 'Project Puppy'
 // })
 
 router.get('/', (req, res) => {
+  // db.Users.getUsernamesBySubstring('f')
+  //   .then(users => {
+  //     console.log(users)
+  //   })
   // get user ip adress
   let ip
 

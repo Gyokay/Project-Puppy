@@ -1,4 +1,5 @@
 module.exports = {
   Users: require('./user'),
-  Post: require('./post')
+  Post: require('./post'),
+  Message: require('./message')
 }

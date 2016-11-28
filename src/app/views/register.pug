@@ -1,7 +1,7 @@
 extends base-layout
 
 block append head
-  link(rel='stylesheet' href='/components/css/register.css')
+  link(rel='stylesheet' href='/css/register.css')
 
 block content
   if success
@@ -13,7 +13,7 @@ block content
   form(action='/register', method='post')
     .row
       .one-third.column &nbsp;
-      .one-third.column 
+      .one-third.column
         input(
           type='text'
           id='usernameInput'
@@ -50,6 +50,6 @@ block content
           value='Register'
         )
       .one-third.column &nbsp;
-    
+
 //- block append scripts
 //-   script(src='/js/register.js')

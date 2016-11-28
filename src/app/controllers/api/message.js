@@ -18,6 +18,9 @@ router.post('/getConversation', (req, res) => {
   )
     .then(messages => {
       console.log(messages)
+      messages.forEach(message => {
+        db.Message.updateToSeenById(message._id)
+      })
       res.send(messages)
     })
 })

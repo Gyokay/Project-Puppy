@@ -7,6 +7,8 @@ $(function () {
       return
     }
 
+    $('.chat').empty()
+
     receiver = $(event.target).text()
 
     $.ajax({

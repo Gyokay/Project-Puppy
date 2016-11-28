@@ -13,21 +13,22 @@ module.exports = (server, sessionStore, cookieParser) => {
   }))
 
   io.on('connection', socket => {
+    console.log(socket.request.user.username)
     if (socket.request.isAuthenticated()) {
       // console.log(socket.request.sessionID)
       // console.log(socket.request.user.username)
       if (!connectedUsers[socket.request.user.username]) {
         connectedUsers[socket.request.user.username] = socket
       }
+
+      db.Message.getUnseenMessagesCountByReceiver(socket.request.user.username)
+        .then(count => {
+          socket.emit('new messages count', count)
+          console.log(count)
+        })
     }
 
     // console.log(connectedUsers.request.user.username)
-    // socket.on('get messages', (username, fn) => {
-    //   db.Message.getAllBySenderAndReceiver(username, socket.request.user.username)
-    //     .then(messages => {
-
-    //     })
-    // })
 
     socket.on('send message', data => {
       //chech if such user exists
@@ -51,15 +52,10 @@ module.exports = (server, sessionStore, cookieParser) => {
               }
             })
         })
-
-      // console.log(data)
-      // // if (connectedUsers[data.receiverUsername]) {
-      // //   connectedUsers[data.receiverUsername].emit('receive message', data.msg)
-      // // }
     })
 
-    // console.log(connectedUsers)
     socket.on('disconnect', () => {
+      console.log(socket.request.user.username)
       delete connectedUsers[socket.request.user.username]
       // console.log(connectedUsers)
     })

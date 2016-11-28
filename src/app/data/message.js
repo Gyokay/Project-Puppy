@@ -20,6 +20,30 @@ function insert(message, sender, receiver) {
   })
 }
 
+function updateToSeenById(_id) {
+  return new Promise((resolve, reject) => {
+    Message.update({ _id }, { $set: { isSeen: true } }, (err, message) => {
+      if (err) {
+        console.log(err)
+      }
+      resolve(err)
+    })
+  })
+}
+
+function getUnseenMessagesCountByReceiver(receiver) {
+  return new Promise((resolve, reject) => {
+    Message.count()
+      .where({ isSeen: false, receiver })
+      .exec((err, count) => {
+        if (err) {
+          console.log(err)
+        }
+        resolve(count)
+      })
+  })
+}
+
 function getAllUniqueSenderNamesByReceaver(receiver) {
   return new Promise((resolve, reject) => {
     Message.find()
@@ -89,7 +113,9 @@ function getAllBySenderAndReceiver(sender, receiver, count) {
 
 module.exports = {
   insert,
+  updateToSeenById,
   getAllUniqueSenderNamesByReceaver,
   getAllUniqueReceiverNamesBySender,
-  getAllBySenderAndReceiver
+  getAllBySenderAndReceiver,
+  getUnseenMessagesCountByReceiver
 }

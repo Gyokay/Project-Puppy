@@ -1,8 +1,9 @@
 const Message = require('../models/message')
 
-function insert(sender, receiver) {
+function insert(message, sender, receiver) {
   return new Promise((resolve, reject) => {
     let newMessage = new Message({
+      message,
       sender,
       receiver,
       sentOn: new Date(),
@@ -47,29 +48,42 @@ function getAllUniqueReceiverNamesBySender(sender) {
   })
 }
 
-function getAllBySenderAndReceiver(sender, receiver) {
+function getAllBySenderAndReceiver(sender, receiver, count) {
   return new Promise((resolve, reject) => {
-    Message.find()
-      .or([
-        { $and: [{ sender }, { receiver }] },
-        { $and: [{ sender: receiver }, { receiver: sender }] }
-      ])
-      .exec((err, messages) => {
+    Message.aggregate([
+      {
+        $match:
+        {
+          $or: [
+            { $and: [{ sender }, { receiver }] },
+            { $and: [{ sender: receiver }, { receiver: sender }] }
+          ]
+        }
+      },
+      { $sort: { sentOn: -1 } },
+      { $limit: count },
+      { $sort: { sentOn: 1 } }
+    ])
+      .exec((err, messags) => {
         if (err) {
           console.log(err)
         }
-        resolve(messages)
+        resolve(messags)
       })
-    // Message.find({ $or: [{ receiver }, { sender }, { receiver: sender }] })
-    // Message.find({
-    //   sender,
-    //   receiver
-    // }, (err, messages) => {
-    //   if (err) {
-    //     console.log(err)
-    //   }
-    //   resolve(messages)
-    // })
+    // Message.find()
+    //   .or([
+    //     { $and: [{ sender }, { receiver }] },
+    //     { $and: [{ sender: receiver }, { receiver: sender }] }
+    //   ])
+    //   .sort({ sentOn: 'desc' })
+    //   .limit(count)
+    //   // .sort({sentOn: 'asc'})
+    //   .exec((err, messages) => {
+    //     if (err) {
+    //       console.log(err)
+    //     }
+    //     resolve(messages)
+    //   })
   })
 }
 

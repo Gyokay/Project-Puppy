@@ -1,0 +1,15 @@
+extends base-layout
+
+block append head
+
+block content
+  ol.chat
+
+  each name in uniqueUsernames
+    p(
+      class='receiver'
+    )= name
+
+
+block append scripts
+  script(src='/js/chat.js')

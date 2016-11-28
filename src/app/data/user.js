@@ -1,6 +1,6 @@
 const User = require('../models/user')
 
-function insertUser (username, email, password) {
+function insertUser(username, email, password) {
   return new Promise((resolve, reject) => {
     let newUser = new User({
       username,
@@ -16,7 +16,7 @@ function insertUser (username, email, password) {
   })
 }
 
-function getUserByUsername (username) {
+function getUserByUsername(username) {
   return new Promise((resolve, reject) => {
     User.findOne({ username }, (err, users) => {
       if (err) {
@@ -27,7 +27,20 @@ function getUserByUsername (username) {
   })
 }
 
-function getUserByEmail (email) {
+function getUsernamesBySubstring(substring) {
+  return new Promise((resolve, reject) => {
+    User.find({ username: new RegExp(substring, 'i') })
+      .select('username')
+      .exec((err, usernames) => {
+        if (err) {
+          console.log(err)
+        }
+        resolve(usernames)
+      })
+  })
+}
+
+function getUserByEmail(email) {
   return new Promise((resolve, reject) => {
     User.findOne({ email }, (err, users) => {
       if (err) {
@@ -41,5 +54,6 @@ function getUserByEmail (email) {
 module.exports = {
   insertUser,
   getUserByUsername,
-  getUserByEmail
+  getUserByEmail,
+  getUsernamesBySubstring
 }

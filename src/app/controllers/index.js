@@ -9,5 +9,6 @@ router.use('/user', require('./user'))
 router.use('/post', require('./post'))
 router.use('/find', require('./find'))
 router.use('/api', require('./api'))
+router.use('/chat', require('./chat'))
 
 module.exports = router

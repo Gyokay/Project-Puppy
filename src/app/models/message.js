@@ -2,6 +2,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 let messageSchema = new Schema({
+  message: {
+    type: String,
+    required: true
+  },
   sender: {
     type: String,
     required: true
@@ -20,6 +24,6 @@ let messageSchema = new Schema({
   }
 })
 
-let Message = mongoose.model('Comment', messageSchema)
+let Message = mongoose.model('Message', messageSchema)
 
 module.exports = Message

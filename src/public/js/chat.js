@@ -1,20 +1,69 @@
 $(function () {
   const socket = io.connect('/')
-  let receiverUsername
+  let receiver
 
   $('.receiver').click(function (event) {
-    receiverUsername = $(event.target).text()
-    // socket.emit('get messages', {receiverUsername}, function (messages) {
-    //   console.log(messages)
-    // })
+    if (receiver === $(event.target).text()) {
+      return
+    }
 
-    socket.emit('send message', { receiverUsername: 'ssssssss', msg: 'some message' })
+    receiver = $(event.target).text()
+
+    $.ajax({
+      url: '/api/message/getConversation',
+      method: 'POST',
+      dataType: 'json',
+      data: {
+        receiver
+      },
+      success: function (messages) {
+        // console.log(messages)
+        appendMessages(messages)
+      }
+    })
   })
 
-  $('.send').click(function () {
+  $('.send').keypress(function (e) {
+    if (e.which === 13) {
+      let $target = $(e.target)
+      let message = $target.val()
+      $target.val('')
+
+      // console.log($(e.target).val())
+      socket.emit('send message', { receiver, message })
+
+      appendSingleMessage({ message })
+    }
   })
 
-  socket.on('receive message', msg => {
-    console.log(msg)
+  socket.on('receiver message', message => {
+    // console.log(message)
+    appendSingleMessage(message)
   })
+
+  function appendMessages (messages) {
+    messages.forEach(function (message) {
+      appendSingleMessage(message)
+    })
+  }
+
+  function appendSingleMessage (message) {
+    let $li = $('<li></li>')
+    let $msgContainer = $('<div></div>').addClass('msg')
+    let $msg = $('<p></p>').text(message.message)
+
+    if (message.receiver === receiver) {
+      $li.addClass('self')
+    } else {
+      $li.addClass('other')
+    }
+
+    $msgContainer.append($msg)
+    $li.append($msgContainer)
+    $('.chat').append($li)
+  }
+
+  function scrollToBotton () {
+    // to do
+  }
 })

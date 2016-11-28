@@ -1,15 +1,18 @@
 extends base-layout
 
 block append head
+  link(rel='stylesheet' href='/css/chat.css')
 
 block content
-  ol.chat
 
   each name in uniqueUsernames
     p(
       class='receiver'
     )= name
 
+  ol.chat
+  .row
+    input.textarea.send(type='text', placeholder='Type here!')
 
 block append scripts
   script(src='/js/chat.js')

@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+var io = require('socket.io')
 const db = require('../data')
 
 const pageTitle = 'Project Puppy'
@@ -11,7 +12,6 @@ const pageTitle = 'Project Puppy'
 // })
 
 router.get('/', (req, res) => {
-
   // get user ip adress
   let ip
 

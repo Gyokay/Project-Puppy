@@ -34,7 +34,7 @@ router.post('/', (req, res) => {
       .then(users => {
         let validationErrors = []
 
-        console.log(users)
+        // console.log(users)
 
         if (users[0]) {
           req.session.success = false
@@ -58,7 +58,7 @@ router.post('/', (req, res) => {
           db.Users.insertUser(req.body.username, req.body.email, passHash)
             .then(user => {
               req.session.success = true
-              res.redirect('/register')
+              res.redirect('/login')
             })
             .catch(err => {
               console.log(err)

@@ -15,7 +15,7 @@ const uploadImgsErrorMsg = 'There was problem uploding the images. Please try ag
 
 router.get('/create-post', (req, res) => {
   // DON'T DELETE - uncomment in production
-  // if (req.isUnauthenticated()) {
+  // if (!req.isUnauthenticated()) {
   //   res.redirect('/login')
   // }
 
@@ -26,7 +26,7 @@ router.post('/create-post',
   upload.array(fileInputName, allowedImagesCount),
   (req, res) => {
     // DON'T DELETE - uncomment in production
-    // if (req.isUnauthenticated()) {
+    // if (!req.isUnauthenticated()) {
     //   res.redirect('/login')
     // }
 

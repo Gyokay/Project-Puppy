@@ -57,10 +57,10 @@ router.get('/populate', (req, res) => {
   for (let i = 0; i < postsCount; i += 1) {
     db.Post.insertPost(
       'user',
-      'some title',
+      i,
       'simple description',
       'Sofia',
-      'cat',
+      'dog',
       ['http://justcuteanimals.com/wp-content/uploads/2016/07/cute-funny-pug-life-shades-summer-dogs-puppy-animal-pictures.jpg']
     )
   }

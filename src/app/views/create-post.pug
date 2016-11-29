@@ -4,8 +4,11 @@ block append head
   //- put custom css here
 
 block content
-  if error
-    h1= error
+  if success
+    h1 Post created!
+  if errors
+    each err in errors
+      h3= err.msg
 
   form(
     enctype="multipart/form-data"

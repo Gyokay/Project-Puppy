@@ -11,5 +11,6 @@ router.use('/find', require('./find'))
 router.use('/api', require('./api'))
 router.use('/chat', require('./chat'))
 router.use('/logout', require('./logout'))
+router.use('/forum', require('./thread'))
 
 module.exports = router

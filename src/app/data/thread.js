@@ -29,9 +29,9 @@ module.exports = {
       })
     })
   },
-  addMessageToThreadByTitle(title, message){
+  addMessageToThreadById(id, message){
     return new Promise((resolve, reject) => {
-      Thread.findOne({title}, (err, thread) => {
+      Thread.findOne({_id: id}, (err, thread) => {
         if (err) {
           return reject(err);
         }

@@ -1,0 +1,13 @@
+extends base-layout
+
+block content
+  h1= result.title
+  div= result.content
+    ul
+    each mes in result.messages
+      li= mes.message.message
+
+  form(action='/forum/' + result._id method="post")
+    textarea.form-control(name="message" placeholder="Enter your answer")
+    button
+      | Submit

@@ -11,6 +11,9 @@ router
         });
       })
   })
+  .get('/create', (req, res) => {
+    res.render('createThread');
+  })
   .get('/:id', (req, res) => {
     let id = req.params.id;
     db.Thread.getThreadById(id)
@@ -18,6 +21,26 @@ router
         res.render('thread', {
           result: thread
         });
+      })
+  })
+  .post('/create', (req, res) => {
+    let {
+      title,
+      content
+    } = req.body;
+
+    db.Thread.createThread(title, content)
+      .then((thread) => {
+        return res.redirect(`/forum/${thread._id}`);
+      })
+  })
+  .post('/:id', (req, res) => {
+    let id = req.params.id;
+    let user = req.params.user;
+    let message = req.body;
+    db.Thread.addMessageToThreadById(id, {message, user})
+      .then((thread) => {
+        res.redirect(`/forum/${thread._id}`);
       })
   });
 

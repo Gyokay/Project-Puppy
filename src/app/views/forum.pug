@@ -1,4 +1,9 @@
 extends base-layout
 
 block content
-    h1 Welcome to the Pet Adoption Forum
+  h1 Welcome to the Pet Adoption Forum
+  a(href='/forum/create') Create thread
+  each thread in result
+    ul
+      li
+        a(href='/forum/' + thread._id)= thread.title

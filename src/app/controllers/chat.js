@@ -10,6 +10,11 @@ router.get('/', (req, res) => {
 
   let uniqueUsernames = new Set()
 
+  if (req.session.receiver) {
+    uniqueUsernames.add(req.session.receiver)
+    req.session.receiver = null
+  }
+
   // db.Message.insert('posho', req.user.username)
   // db.Message.insert('posho', req.user.username)
   // db.Message.insert('gosho', req.user.username)
@@ -40,6 +45,17 @@ router.get('/', (req, res) => {
           res.render('chat', { uniqueUsernames })
         })
     })
+})
+
+router.get('/:username', (req, res) => {
+  if (!req.isAuthenticated()) {
+    res.render('/login')
+    return
+  }
+
+  let receiver = req.params.username
+  req.session.receiver = receiver
+  res.redirect('/chat')
 })
 
 module.exports = router

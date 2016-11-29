@@ -4,7 +4,10 @@ block append head
   link(rel='stylesheet' href='/css/view-post.css')
 
 block content
-    .row 
+    a.button.button-primary(
+        href=`/chat/${ownerUsername}`
+    ) write the owner
+    .row
         .six.columns.image
             img(
                 src=imgUrls[0]

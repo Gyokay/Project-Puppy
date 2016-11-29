@@ -14,10 +14,10 @@ const allowedImagesCount = 4
 const uploadImgsErrorMsg = 'There was problem uploding the images. Please try again.'
 
 router.get('/create-post', (req, res) => {
-  // DON'T DELETE - uncomment in production
-  // if (!req.isUnauthenticated()) {
-  //   res.redirect('/login')
-  // }
+  if (!req.isAuthenticated()) {
+    res.redirect('/login')
+    return
+  }
 
   res.render('create-post')
 })
@@ -25,10 +25,10 @@ router.get('/create-post', (req, res) => {
 router.post('/create-post',
   upload.array(fileInputName, allowedImagesCount),
   (req, res) => {
-    // DON'T DELETE - uncomment in production
-    // if (!req.isUnauthenticated()) {
-    //   res.redirect('/login')
-    // }
+    if (!req.isAuthenticated()) {
+      res.redirect('/login')
+      return
+    }
 
     // TO DO validations:
     // on post:
@@ -37,7 +37,7 @@ router.post('/create-post',
     function insertPostToDB () {
       // add new post to DB
       db.Post.insertPost(
-        'USER', // hard coded username for test purposes. change in production !!!
+        req.user.username,
         req.body.title,
         req.body.description,
         req.body.town,

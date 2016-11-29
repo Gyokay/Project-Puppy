@@ -9,8 +9,18 @@
     color: coral;
 }
 
+#chat {
+    height: 400px;
+    overflow: auto;
+}
+
+.usernamesContainer {
+    height: 150px;
+    overflow: auto;
+}
+
 html, body {
-    background: #e5e5e5;
+    background: #E5E5E5;
     font-family: 'Lato', sans-serif;
     margin: 0px auto;
 }
@@ -90,7 +100,7 @@ a{
 
 /* M E S S A G E S */
 
-.chat {
+#chat {
     list-style: none;
     background: none;
     margin: 0;
@@ -98,12 +108,12 @@ a{
     margin-top: 60px;
     margin-bottom: 10px;
 }
-.chat li {
+#chat li {
     padding: 0.5rem;
     overflow: hidden;
     display: flex;
 }
-.chat .avatar {
+#chat .avatar {
     width: 40px;
     height: 40px;
     position: relative;
@@ -115,7 +125,7 @@ a{
     -ms-border-radius: 100%;
     background-color: rgba(255,255,255,0.9);
 }
-.chat .avatar img {
+#chat .avatar img {
     width: 40px;
     height: 40px;
     border-radius: 100%;
@@ -128,7 +138,7 @@ a{
     -moz-user-select: none;
     -ms-user-select: none;
 }
-.chat .day {
+#chat .day {
     position: relative;
     display: block;
     text-align: center;
@@ -245,7 +255,7 @@ a{
     margin-right: 4px;
 }
 
-emoji{
+/*emoji{
     display: inline-block;
     height: 18px;
     width: 18px;
@@ -270,9 +280,9 @@ emoji.funny{background-image: url(http://i.imgur.com/qKia58V.png);}
 @-webikt-keyframes pulse {
   from { opacity: 0; }
   to { opacity: 0.5; }
-}
+}*/
 
-::-webkit-scrollbar {
+/*::-webkit-scrollbar {
     min-width: 12px;
     width: 12px;
     max-width: 12px;
@@ -281,9 +291,9 @@ emoji.funny{background-image: url(http://i.imgur.com/qKia58V.png);}
     max-height: 12px;
     background: #e5e5e5;
     box-shadow: inset 0px 50px 0px rgba(82,179,217,0.9), inset 0px -52px 0px #fafafa;
-}
+}*/
 
-::-webkit-scrollbar-thumb {
+/*::-webkit-scrollbar-thumb {
     background: #bbb;
     border: none;
     border-radius: 100px;
@@ -304,7 +314,7 @@ emoji.funny{background-image: url(http://i.imgur.com/qKia58V.png);}
 ::-webkit-scrollbar-button {
     display: block;
     height: 26px;
-}
+}*/
 
 /* T Y P E */
 

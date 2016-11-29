@@ -9,7 +9,7 @@ $(function () {
 
     $(event.target).removeClass('newMessage')
 
-    $('.chat').empty()
+    $('#chat').empty()
 
     receiver = $(event.target).text()
 
@@ -36,7 +36,7 @@ $(function () {
       // console.log($(e.target).val())
       socket.emit('send message', { receiver, message })
 
-      appendSingleMessage({ message })
+      appendSingleMessage({ receiver, message })
     }
   })
 
@@ -67,6 +67,10 @@ $(function () {
     let $msgContainer = $('<div></div>').addClass('msg')
     let $msg = $('<p></p>').text(message.message)
 
+    // if (!message.receiver) {
+    //   $li.addClass('self')
+    // }
+
     if (message.receiver === receiver) {
       $li.addClass('self')
     } else {
@@ -75,11 +79,13 @@ $(function () {
 
     $msgContainer.append($msg)
     $li.append($msgContainer)
-    $('.chat').append($li)
+    $('#chat').append($li)
+
+    scrollToBotton()
   }
 
   function scrollToBotton () {
-    // to do
+    $('#chat').scrollTop(5000)
   }
 
   // user search logic
@@ -141,7 +147,7 @@ $(function () {
     }
 
     let $target = $(e.target)
-    let $pEl = $('<p></p>').addClass('receiver').text($target.val())
+    let $pEl = $('<button></button>').addClass('receiver button').text($target.val())
     $('.usernamesContainer').prepend($pEl)
   })
 })

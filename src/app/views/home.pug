@@ -11,6 +11,7 @@ block content
         a(class='button' href='/login') Login
   else
     .row
+      a(class='button' href='/post/create-post') Create new post
       .twelve.columns
         p(class='u-pull-right') Hello,&nbsp;
           a(href=`/user/${user.username}`)= user.username

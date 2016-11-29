@@ -13,11 +13,11 @@ block content
     )
   .usernamesContainer
     each name in uniqueUsernames
-      p(
-        class='receiver'
+      button(
+        class='receiver button'
       )= name
 
-  ol.chat
+  ol#chat
   .row
     input.textarea.send(type='text', placeholder='Type here!')
 

@@ -14,6 +14,7 @@ let threadSchrema = new mongoose.Schema({
     type: Date,
     required: true
   },
+  username: String,
   messages: []
 });
 

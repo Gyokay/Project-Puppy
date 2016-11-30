@@ -12,7 +12,7 @@ let postSchema = new Schema({
   title: {
     type: String,
     required: true,
-    validate: [validators.isLength(constants.minPostTitleLenght, constants.minPostTitleLenght)]
+    validate: [validators.isLength(constants.minPostTitleLenght, constants.maxPostTitleLenght)]
   },
   description: {
     type: String,
@@ -33,8 +33,7 @@ let postSchema = new Schema({
     required: true
   },
   imgUrls: {
-    type: [String],
-    validate: [validators.isLength(constants.minPostUrlLenght, constants.maxPostUrlLenght)]
+    type: [String]
   },
   isArchived: {
     type: Boolean,

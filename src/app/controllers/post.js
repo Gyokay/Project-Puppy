@@ -1,38 +1,43 @@
-const express = require('express')
-const router = express.Router()
-const multer = require('multer')
-const path = require('path')
-const upload = multer({ dest: path.join(__dirname, '/uploads') })
-const fs = require('fs')
-const request = require('request')
+const constants = require('../common/constants');
+const express = require('express');
+const router = express.Router();
+const multer = require('multer');
+const path = require('path');
+const upload = multer({ dest: path.join(__dirname, '/uploads') });
+const fs = require('fs');
+const request = require('request');
 
-const db = require('../data')
-
-const fileInputName = 'img'
-const allowedImagesCount = 4
-
-const uploadImgsErrorMsg = 'There was problem uploding the images. Please try again.'
+const db = require('../data');
 
 router.get('/create-post', (req, res) => {
   if (!req.isAuthenticated()) {
-    res.redirect('/login')
-    return
+    res.redirect('/login');
+    return;
   }
-
-  res.render('create-post')
-})
+  res.render('create-post', { success: req.session.success, errors: req.session.errors });
+});
 
 router.post('/create-post',
-  upload.array(fileInputName, allowedImagesCount),
+  upload.array(constants.fileInputName, constants.allowedImagesCount),
   (req, res) => {
     if (!req.isAuthenticated()) {
-      res.redirect('/login')
-      return
+      res.redirect('/login');
+      return;
     }
 
-    // TO DO validations:
-    // on post:
-    // file size and extention
+    // Validation
+    req.checkBody('title', 'Title must be between ' + constants.minPostTitleLenght + ' and ' + constants.maxPostTitleLenght + ' characters')
+      .len(constants.minPostTitleLenght, constants.maxPostTitleLenght);
+    req.checkBody('description', 'Description must be between ' + constants.minPostDescriptionLenght + ' and ' + constants.maxPostDescriptionLenght + ' characters')
+      .len(constants.minPostDescriptionLenght, constants.maxPostDescriptionLenght);
+
+  let errors = req.validationErrors();
+  if (errors) {
+    req.session.errors = errors;
+    req.session.success = false;
+    res.redirect('/post/create-post');
+    return;
+  }
 
     function insertPostToDB () {
       // add new post to DB
@@ -44,14 +49,14 @@ router.post('/create-post',
         req.body.petType,
         imgUrls
       ).then(post => {
-        res.redirect(`/post/${post._id}`)
-      })
+        res.redirect(`/post/${post._id}`);
+      });
     }
 
-    let imgUrls = []
+    let imgUrls = [];
 
-    let filesCount = req.files.length
-    let asyncCount = 0
+    let filesCount = req.files.length;
+    let asyncCount = 0;
 
     // options for the requester
     // contains IMGUR api url and Client-ID
@@ -68,50 +73,50 @@ router.post('/create-post',
     new Promise((resolve, reject) => {
       // Check if photos are available in the request body
       if (filesCount <= 0) {
-        insertPostToDB()
-        return
+        insertPostToDB();
+        return;
       }
 
       req.files.forEach(file => {
         fs.createReadStream(file.path)
           .pipe(request(options, (err, response, body) => {
             if (err) {
-              console.log(err)
-              res.redirect('/post/create-post', { error: uploadImgsErrorMsg })
-              return
+              console.log(err);
+              res.redirect('/post/create-post', { error: constants.uploadImgsErrorMsg });
+              return;
             }
 
             if (!err && response.statusCode === 200) {
-              let bodyObj = JSON.parse(body)
-              let imgLink = bodyObj.data.link
+              let bodyObj = JSON.parse(body);
+              let imgLink = bodyObj.data.link;
 
-              imgUrls.push(imgLink)
-              asyncCount++
+              imgUrls.push(imgLink);
+              asyncCount++;
 
               if (asyncCount === filesCount) {
-                resolve()
+                resolve();
               }
             }
-          }))
-      })
+          }));
+      });
     })
       .then(() => {
         // console.log(imgUrls)
         // delete images from the file system
         req.files.forEach(file => {
-          fs.unlink(file.path)
-        })
+          fs.unlink(file.path);
+        });
 
-        insertPostToDB()
-      })
-  })
+        insertPostToDB();
+      });
+  });
 
 router.get('/:postId', (req, res) => {
   db.Post.getPostById(req.params.postId)
     .then(post => {
       if (!post) {
-        res.render('not-found')
-        return
+        res.render('not-found');
+        return;
       }
 
       res.render('view-post', {
@@ -122,8 +127,8 @@ router.get('/:postId', (req, res) => {
         petPype: post.petPtype,
         imgUrls: post.imgUrls,
         isArchived: post.isArchived
-      })
-    })
-})
+      });
+    });
+});
 
-module.exports = router
+module.exports = router;

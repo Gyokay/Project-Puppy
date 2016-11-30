@@ -64,12 +64,20 @@ $(function () {
     }
   })
 
+  let $ticker = $('<img></img>')
+    .addClass('ticker')
+    .attr('src', '/img/ring.svg')
+
+  $('.container').append($ticker)
+
   function getLatest(url, options) {
     detachOnScrollevent()
 
     if (noMoreResults) {
       return
     }
+
+    $('.ticker').show()
 
     makeRequest(url, options)
       .then(function (posts) {
@@ -88,6 +96,8 @@ $(function () {
 
         appendPostsToBody(posts)
 
+        $('.ticker').hide()
+
         attachOnScrollEvent(url, options)
 
         if (initialPopulate) {
@@ -101,15 +111,18 @@ $(function () {
       })
   }
 
+
   function appendPostsToBody(posts) {
+
     let $container = $('.postsContainer')
     let $row = $('<div></div>').addClass('row')
+
 
     posts.forEach(function (post) {
       let $oneThirdColumn = $('<div></div>').addClass('one-third column')
       let $anchor = $('<a></a>').attr('href', `/post/${post._id}`)
       let $imgContainer = $('<div></div>').addClass('image')
-      let $imgElement = $('<img>').attr('src', post.imgUrls[0]).addClass('object-fit_cover u-full-width')
+      let $imgElement = $('<img>').attr('src', post.imgUrls[0]).addClass('postImg object-fit_cover u-full-width')
       let $title = $('<p></p>')
         .append($('<h3></3>').text(post.title))
 
@@ -121,6 +134,7 @@ $(function () {
     })
 
     $container.append($row)
+
   }
 
   function detachOnScrollevent() {

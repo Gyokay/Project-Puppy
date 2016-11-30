@@ -3,6 +3,10 @@ const router = express.Router()
 
 const db = require('../../data')
 
+// module.exports = function (db) {
+//   return router
+// }
+
 const numberOfResultsPerReqest = 3
 
 router.post('/get-latest', (req, res) => {
@@ -11,7 +15,7 @@ router.post('/get-latest', (req, res) => {
     req.body['viewedPostsIds[]']
   )
     .then(posts => {
-      res.send(posts)
+      res.json(posts)
     })
 })
 
@@ -22,7 +26,7 @@ router.post('/get-by-town', (req, res) => {
     req.body['viewedPostsIds[]']
   )
     .then(posts => {
-      res.send(posts)
+      res.json(posts)
     })
 })
 
@@ -33,7 +37,7 @@ router.post('/get-by-pet-type', (req, res) => {
     req.body['viewedPostsIds[]']
   )
     .then(posts => {
-      res.send(posts)
+      res.json(posts)
     })
 })
 
@@ -45,7 +49,33 @@ router.post('/get-by-town-and-pet-type', (req, res) => {
     req.body['viewedPostsIds[]']
   )
     .then(posts => {
-      res.send(posts)
+      res.json(posts)
+    })
+})
+
+router.post('/archive', (req, res) => {
+  if (!req.isAuthenticated()) {
+    res.json({ err: 'Not Authenticated' })
+    return
+  }
+
+  console.log(req.body)
+  db.Post.getPostById(req.body.postId)
+    .then(post => {
+      if (!post) {
+        res.json({ err: 'Invalid post id' })
+        return
+      }
+
+      if (!post.ownerUsername === req.user.username) {
+        res.json({ err: 'Not Authorized' })
+        return
+      }
+
+      db.Post.updateIsArchivedById(post._id, true)
+        .then(post => {
+          res.json(post)
+        })
     })
 })
 
@@ -57,7 +87,7 @@ router.get('/populate', (req, res) => {
   for (let i = 0; i < postsCount; i += 1) {
     db.Post.insertPost(
       'user',
-      i,
+      'title' + i,
       'simple description',
       'Sofia',
       'dog',

@@ -26,7 +26,7 @@ function updateToSeenById(_id) {
       if (err) {
         console.log(err)
       }
-      resolve(err)
+      resolve(message)
     })
   })
 }

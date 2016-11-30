@@ -15,6 +15,8 @@ router.get('/create-post', (req, res) => {
     return;
   }
   res.render('create-post', { success: req.session.success, errors: req.session.errors });
+  req.session.errors = []
+  req.session.save()
 });
 
 router.post('/create-post',
@@ -31,15 +33,16 @@ router.post('/create-post',
     req.checkBody('description', 'Description must be between ' + constants.minPostDescriptionLenght + ' and ' + constants.maxPostDescriptionLenght + ' characters')
       .len(constants.minPostDescriptionLenght, constants.maxPostDescriptionLenght);
 
-  let errors = req.validationErrors();
-  if (errors) {
-    req.session.errors = errors;
-    req.session.success = false;
-    res.redirect('/post/create-post');
-    return;
-  }
+    let errors = req.validationErrors();
 
-    function insertPostToDB () {
+    if (errors) {
+      req.session.errors = errors;
+      req.session.success = false;
+      res.redirect('/post/create-post');
+      return;
+    }
+
+    function insertPostToDB() {
       // add new post to DB
       db.Post.insertPost(
         req.user.username,
@@ -119,6 +122,12 @@ router.get('/:postId', (req, res) => {
         return;
       }
 
+      let isOwner = false
+
+      if (req.user.username === post.ownerUsername) {
+        isOwner = true
+      }
+
       res.render('view-post', {
         title: post.title,
         description: post.description,
@@ -126,7 +135,8 @@ router.get('/:postId', (req, res) => {
         town: post.town,
         petPype: post.petPtype,
         imgUrls: post.imgUrls,
-        isArchived: post.isArchived
+        isArchived: post.isArchived,
+        isOwner
       });
     });
 });

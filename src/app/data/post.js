@@ -1,6 +1,6 @@
 const Post = require('../models/post')
 
-function insertPost (ownerUsername, title, description, town, petType, imgUrls) {
+function insertPost(ownerUsername, title, description, town, petType, imgUrls) {
   return new Promise((resolve, reject) => {
     let newPost = new Post({
       ownerUsername,
@@ -22,7 +22,18 @@ function insertPost (ownerUsername, title, description, town, petType, imgUrls) 
   })
 }
 
-function getPostById (_id) {
+function updateIsArchivedById(_id, isArchived) {
+  return new Promise((resolve, reject) => {
+    Post.update({ _id }, { $set: { isArchived } }, (err, post) => {
+      if (err) {
+        console.log(err)
+      }
+      resolve(post)
+    })
+  })
+}
+
+function getPostById(_id) {
   return new Promise((resolve, reject) => {
     // Regular expression that checks for hex value
     var checkForHexRegExp = new RegExp('^[0-9a-fA-F]{24}$')
@@ -41,7 +52,7 @@ function getPostById (_id) {
   })
 }
 
-function getLatest (count, excludedPostIds) {
+function getLatest(count, excludedPostIds) {
   return new Promise((resolve, reject) => {
     Post.find({
       // creationDate: { $lt: new Date() },
@@ -59,7 +70,7 @@ function getLatest (count, excludedPostIds) {
   })
 }
 
-function getByTown (town, count, excludedPostIds) {
+function getByTown(town, count, excludedPostIds) {
   return new Promise((resolve, reject) => {
     Post.find({
       town,
@@ -77,7 +88,7 @@ function getByTown (town, count, excludedPostIds) {
   })
 }
 
-function getByPetType (petType, count, excludedPostIds) {
+function getByPetType(petType, count, excludedPostIds) {
   return new Promise((resolve, reject) => {
     Post.find({
       petType,
@@ -95,7 +106,7 @@ function getByPetType (petType, count, excludedPostIds) {
   })
 }
 
-function getByTownAndPetType (town, petType, count, excludedPostIds) {
+function getByTownAndPetType(town, petType, count, excludedPostIds) {
   return new Promise((resolve, reject) => {
     Post.find({
       town,
@@ -113,13 +124,11 @@ function getByTownAndPetType (town, petType, count, excludedPostIds) {
       })
   })
 }
-
-// var q = Post.find({ "rating": { "$gte": 5 }, "_id": { "$nin": seenIds } })
-//   .sort("rating").limit(10);
 
 module.exports = {
   insertPost,
   getPostById,
+  updateIsArchivedById,
   getLatest,
   getByTown,
   getByPetType,

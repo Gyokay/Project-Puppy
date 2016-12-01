@@ -16,7 +16,7 @@ let postSchema = new Schema({
   },
   description: {
     type: String,
-    validate: [validators.isLength(constants.minPostTitleLenght, constants.maxPostTitleLenght)]
+    validate: [validators.isLength(constants.minPostDescriptionLenght, constants.maxPostDescriptionLenght)]
   },
   creationDate: {
     type: Date,

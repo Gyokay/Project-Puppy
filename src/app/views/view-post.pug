@@ -2,47 +2,80 @@ extends base-layout
 
 block append head
   link(rel='stylesheet' href='/css/view-post.css')
+  link(rel='stylesheet' href='/components/imageviewer/dist/viewer.css')
 
 block content
     if isArchived
         h1 This post is archived
 
-    a.button.button-primary(
-        href=`/chat/${ownerUsername}`
-    ) write the owner
 
-    if isOwner && !isArchived
-        button#archive.button Archive post
 
-    .row.postImages
-        each image in imgUrls
-            .six.columns.image
-                img(
-                    src=image
-                )
     .row
-        .five.columns
-            h1=title
+        .postTitle.twelve.columns
+            h1= title
+
     .row
-        .six.columns.postTitle
-            p Description
-        .six.columns
-            sapn=description
+        .eight.columns
+            .imgContainer
+                ul.images
+                    each url in imgUrls
+                        li
+                            img.object-fit_cover.u-full-width(
+                                src= url
+                            )
+        .four.columns.u-max-fullwidth
+            if isOwner && !isArchived
+                button#archive.button Archive post
+
+            if !isOwner
+                a.button.button-primary(
+                    href=`/chat/${ownerUsername}`
+                ) Contact
+            ul
+                li posted by:
+                    a(href=`/user/${ownerUsername}`)
+                        p= ownerUsername
+                li city:
+                    p= town
+
+                li pet type:
+                    p= petType
+                li posted on:
+                    p= date
+
     .row
-        .six.columns.postTitle
-            p Owner Username
-        .six.columns
-            sapn=ownerUsername
-    .row
-        .six.columns.postTitle
-            p Town
-        .six.columns
-            sapn=town
-    .row
-        .six.columns.postTitle
-            p Pet Type
-        .six.columns
-            sapn=petType
+        #postDescription.eight.columns
+            p= description
+    //- .row.postImages
+    //-     each image in imgUrls
+    //-         .six.columns.image
+    //-             img(
+    //-                 src=image
+    //-             )
+    //- .row
+    //-     .five.columns
+    //-         h1=title
+    //- .row
+    //-     .six.columns.postTitle
+    //-         p Description
+    //-     .six.columns
+    //-         sapn=description
+    //- .row
+    //-     .six.columns.postTitle
+    //-         p Owner Username
+    //-     .six.columns
+    //-         sapn=ownerUsername
+    //- .row
+    //-     .six.columns.postTitle
+    //-         p Town
+    //-     .six.columns
+    //-         sapn=town
+    //- .row
+    //-     .six.columns.postTitle
+    //-         p Pet Type
+    //-     .six.columns
+    //-         sapn=petType
 
 block append scripts
+    script(src='/components/imageviewer/dist/viewer.js')
     script(src='/js/view-post.js')

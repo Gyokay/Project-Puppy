@@ -1,5 +1,27 @@
 .postTitle {
-    background-color: lightgray;
-    text-align: center;
-    border: whitesmoke solid 1px;
+    /*background-color: lightgray;*/
+    /*text-align: center;*/
+    /*border: whitesmoke solid 1px;*/
+}
+
+#postDescription {
+    font-size: 1.5em;
+}
+
+li img {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+ul {
+    list-style: none;
+    white-space: nowrap;
+}
+
+ul li {
+    display: inline;
+}
+
+.object-fit_cover {
+  object-fit: cover
 }

@@ -36,7 +36,7 @@ router.get('/', (req, res) => {
 
 router.get('/:username', (req, res) => {
   if (!req.isAuthenticated()) {
-    res.render('/login')
+    res.redirect('/login')
     return
   }
 

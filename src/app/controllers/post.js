@@ -135,13 +135,16 @@ router.get('/:postId', (req, res) => {
 
       let isOwner = false
 
-      if (req.user.username === post.ownerUsername) {
-        isOwner = true
+      if (req.isAuthenticated()) {
+        if (req.user.username === post.ownerUsername) {
+          isOwner = true
+        }
       }
 
       res.render('view-post', {
         title: post.title,
         description: post.description,
+        date: post.creationDate.toDateString(),
         ownerUsername: post.ownerUsername,
         town: post.town,
         petType: post.petType,

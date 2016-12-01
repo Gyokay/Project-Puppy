@@ -14,4 +14,9 @@ $(function () {
       }
     })
   })
+
+  // imageviewer
+  $.fn.viewer
+
+  $('.images').viewer()
 })

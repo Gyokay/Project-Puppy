@@ -56,5 +56,16 @@ module.exports = {
         return resolve(thread);
       })
     })
+  },
+  getThreadByTitle(title){
+    return new Promise((resolve, reject) => {
+      Thread.findOne({title: title}, (err, thread) => {
+        if (err) {
+          return reject(err);
+        }
+
+        return resolve(thread);
+      })
+    })
   }
 };

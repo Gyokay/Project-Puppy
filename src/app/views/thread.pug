@@ -1,16 +1,24 @@
 extends base-layout
 
 block content
+  h1= result.title
   div.container-fluid.list-group
-  h1.row.list-group-item= result.title
-  div.row.list-group-item Created on #{result.dateTime}
-  div.row.list-group-item= result.content
-    ul.container-fluid.list-group
+    div.row.list-group-item
+      div= result.content
+        hr.dl-horizontal
+      div Posted by #{result.username} on #{result.dateTime.toLocaleString()}
+    h3 Answers
+    div.container-fluid.list-group
+    ul.row
     each mes in result.messages
-      li.list-group-item Posted by #{mes.user} on #{mes.date}
-      li.list-group-item= mes.content.message
+      li.list-group-item
+        div= mes.content.message
+        hr
+        div Posted by #{mes.user} on #{mes.date.toLocaleString()}
+      hr
+
 
   form.container-fluid.row(action='/forum/' + result._id method="post")
-    textarea.form-control.row(name="message" placeholder="Enter your answer")
+    textarea.form-control.row(name="message" placeholder="Enter your comment")
     button
-      | Post
+      | Add comment

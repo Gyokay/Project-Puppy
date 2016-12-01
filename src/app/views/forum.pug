@@ -2,9 +2,14 @@ extends base-layout
 
 block content
   h1 Welcome to the Pet Adoption Forum
-  a(href='/forum/create') Create new topic
+  div.container-fluid.row
+    a.btn.btn-primary.col-md-2(href='/forum/create') Create new topic
+    form.col-md-10(action="/forum/search" method="post")
+      input(type="text" name="title" placeholder="Search Title")
+      button Search
   ul.container-fluid.list-group
   each thread in result
       li.list-group-item
         a(href='/forum/' + thread._id)= thread.title
-        span &nbsp Posted by #{thread.username} on #{thread.dateTime}
+        hr
+        span &nbsp Posted by #{thread.username} on #{thread.dateTime.toLocaleString()}

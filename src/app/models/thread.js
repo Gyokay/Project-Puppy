@@ -12,9 +12,12 @@ let threadSchrema = new mongoose.Schema({
   },
   dateTime: {
     type: Date,
+    default: Date.now()
+  },
+  username: {
+    type: String,
     required: true
   },
-  username: String,
   messages: []
 });
 

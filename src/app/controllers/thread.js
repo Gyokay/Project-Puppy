@@ -35,6 +35,16 @@ router
         return res.redirect(`/forum/${thread._id}`);
       })
   })
+  .post('/search', (req, res) => {
+    let title = req.body;
+    console.log(title);
+    db.Thread.getThreadByTitle(title)
+      .then((threads)=>{
+        res.render('forum', {
+          result: threads
+        });
+      })
+  })
   .post('/:id', (req, res) => {
     let id = req.params.id;
     let user = req.user.username;

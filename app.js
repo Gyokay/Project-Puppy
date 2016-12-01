@@ -14,13 +14,13 @@ const server = require('http').Server(app)
 // mongoose setup
 mongoose.Promise = global.Promise // prevents the "depecated promise" message
 
-// const options = {
-//   server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
-//   replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }
-// }
+const options = {
+  server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
+  replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }
+}
 
 const mongodbUri = 'mongodb://localhost/ProjectPuppyDB'
-mongoose.connect(mongodbUri)
+mongoose.connect(mongodbUri, options)
 
 mongoose.connection
   .on('error', console.error.bind(console, 'connection error:'))

@@ -86,7 +86,19 @@ $(function () {
           posts === null ||
           posts === undefined
         ) {
+          let $postsContainer = $('.postsContainer')
+
           noMoreResults = true
+          $('.ticker').hide()
+
+          if ($postsContainer.children().length > 0) {
+            $($postsContainer).append($('<h1>No more results :(</h1>').addClass('noPostMsg'))
+          }
+
+          if ($postsContainer.children().length === 0) {
+            $($postsContainer).empty().append($('<h1>No results :(</h1>').addClass('noPostMsg'))
+          }
+
           return
         }
 

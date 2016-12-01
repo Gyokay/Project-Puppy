@@ -14,12 +14,16 @@ router.get('/create-post', (req, res) => {
     res.redirect('/login');
     return;
   }
-  res.render('create-post', { 
-    success: req.session.success, 
+
+  res.render('create-post', {
+    success: req.session.success,
     errors: req.session.errors,
     title: req.session.title,
     description: req.session.description
   });
+
+  req.session.title = null
+  req.session.description = null
   req.session.errors = []
   req.session.save()
 });

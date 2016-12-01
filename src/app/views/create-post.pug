@@ -16,7 +16,7 @@ block content
     .row
       .three.columns &nbsp;
       .six.columns
-        if errors[0]
+        if errors
             input(
             class='u-full-width'
             type='text'
@@ -31,14 +31,14 @@ block content
             type='text'
             id='titleInput'
             name='title'
-            placeholder='title'            
+            placeholder='title'
         )
-          
+
       .three.columns &nbsp;
     .row
         .three.columns &nbsp;
         .six.columns
-          if errors[0]
+          if errors
             textarea(
             id='descriptionInput'
             class='u-full-width'

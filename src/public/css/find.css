@@ -32,3 +32,8 @@
 .postsContainer .row, .filterContainer {
   margin-bottom: 80px;
 }
+
+.noPostMsg {
+  text-align: center;
+  color: lightgray;
+}

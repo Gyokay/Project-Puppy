@@ -14,7 +14,12 @@ router.get('/create-post', (req, res) => {
     res.redirect('/login');
     return;
   }
-  res.render('create-post', { success: req.session.success, errors: req.session.errors });
+  res.render('create-post', { 
+    success: req.session.success, 
+    errors: req.session.errors,
+    title: req.session.title,
+    description: req.session.description
+  });
   req.session.errors = []
   req.session.save()
 });
@@ -38,6 +43,8 @@ router.post('/create-post',
     if (errors) {
       req.session.errors = errors;
       req.session.success = false;
+      req.session.title = req.body.title;
+      req.session.description = req.body.description;
       res.redirect('/post/create-post');
       return;
     }
@@ -133,7 +140,7 @@ router.get('/:postId', (req, res) => {
         description: post.description,
         ownerUsername: post.ownerUsername,
         town: post.town,
-        petPype: post.petPtype,
+        petType: post.petType,
         imgUrls: post.imgUrls,
         isArchived: post.isArchived,
         isOwner

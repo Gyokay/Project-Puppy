@@ -4,8 +4,6 @@ block append head
   //- put custom css here
 
 block content
-  if success
-    h1 Post created!
   if errors
     each err in errors
       h3= err.msg
@@ -18,18 +16,37 @@ block content
     .row
       .three.columns &nbsp;
       .six.columns
-        input(
-          class='u-full-width'
-          type='text'
-          id='titleInput'
-          name='title'
-          placeholder='title'
+        if errors[0]
+            input(
+            class='u-full-width'
+            type='text'
+            id='titleInput'
+            name='title'
+            placeholder='title'
+            value = title
+          )
+        else
+            input(
+            class='u-full-width'
+            type='text'
+            id='titleInput'
+            name='title'
+            placeholder='title'            
         )
+          
       .three.columns &nbsp;
     .row
         .three.columns &nbsp;
         .six.columns
-          textarea(
+          if errors[0]
+            textarea(
+            id='descriptionInput'
+            class='u-full-width'
+            name='description'
+            placeholder='description'            
+          )=description
+          else
+            textarea(
             id='descriptionInput'
             class='u-full-width'
             name='description'

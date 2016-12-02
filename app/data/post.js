@@ -1,136 +1,148 @@
-const Post = require('../models/post')
+module.exports = function (options) {
+  options = options || {}
 
-function insertPost(ownerUsername, title, description, town, petType, imgUrls) {
-  return new Promise((resolve, reject) => {
-    let newPost = new Post({
-      ownerUsername,
-      title,
-      description,
-      town,
-      petType,
-      imgUrls,
-      creationDate: new Date(),
-      isArchived: false
-    })
+  if (!options.Post) {
+    options.Post = require('../models/post')
+  }
 
-    newPost.save((err, post) => {
-      if (err) {
-        console.log(err)
-      }
-      resolve(post)
-    })
-  })
-}
+  return {
+    insertPost(ownerUsername, title, description, town, petType, imgUrls) {
+      return new Promise((resolve, reject) => {
+        let newPost = new options.Post({
+          ownerUsername,
+          title,
+          description,
+          town,
+          petType,
+          imgUrls,
+          creationDate: new Date(),
+          isArchived: false
+        })
 
-function updateIsArchivedById(_id, isArchived) {
-  return new Promise((resolve, reject) => {
-    Post.update({ _id }, { $set: { isArchived } }, (err, post) => {
-      if (err) {
-        console.log(err)
-      }
-      resolve(post)
-    })
-  })
-}
+        newPost.save((err, post) => {
+          if (err) {
+            console.log(err)
+          }
+          resolve(post)
+        })
+      })
+    },
 
-function getPostById(_id) {
-  return new Promise((resolve, reject) => {
-    // Regular expression that checks for hex value
-    var checkForHexRegExp = new RegExp('^[0-9a-fA-F]{24}$')
-    let isValidId = checkForHexRegExp.test(_id)
+    updateIsArchivedById(_id, isArchived) {
+      return new Promise((resolve, reject) => {
+        options.Post.update({ _id }, { $set: { isArchived } }, (err, post) => {
+          if (err) {
+            console.log(err)
+          }
+          resolve(post)
+        })
+      })
+    },
 
-    if (!isValidId) {
-      return resolve(null)
+    getPostById(_id) {
+      return new Promise((resolve, reject) => {
+        // Regular expression that checks for hex value
+        var checkForHexRegExp = new RegExp('^[0-9a-fA-F]{24}$')
+        let isValidId = checkForHexRegExp.test(_id)
+
+        if (!isValidId) {
+          return resolve(null)
+        }
+
+        options.Post.findOne({ _id }, (err, post) => {
+          if (err) {
+            console.log(err)
+          }
+          resolve(post)
+        })
+      })
+    },
+
+    getLatest(count, excludedPostIds) {
+      return new Promise((resolve, reject) => {
+        options.Post.find({
+          // creationDate: { $lt: new Date() },
+          _id: { $nin: excludedPostIds },
+          isArchived: false
+        })
+          .sort({ creationDate: 'desc' })
+          .limit(count)
+          .exec((err, posts) => {
+            if (err) {
+              console.log(err)
+            }
+            resolve(posts)
+          })
+      })
+    },
+
+    getByTown(town, count, excludedPostIds) {
+      return new Promise((resolve, reject) => {
+        options.Post.find({
+          town,
+          _id: { $nin: excludedPostIds },
+          isArchived: false
+        })
+          .sort({ creationDate: 'desc' })
+          .limit(count)
+          .exec((err, posts) => {
+            if (err) {
+              console.log(err)
+            }
+            resolve(posts)
+          })
+      })
+    },
+
+    getByPetType(petType, count, excludedPostIds) {
+      return new Promise((resolve, reject) => {
+        options.Post.find({
+          petType,
+          _id: { $nin: excludedPostIds },
+          isArchived: false
+        })
+          .sort({ creationDate: 'desc' })
+          .limit(count)
+          .exec((err, posts) => {
+            if (err) {
+              console.log(err)
+            }
+            resolve(posts)
+          })
+      })
+    },
+
+    getByTownAndPetType(town, petType, count, excludedPostIds) {
+      return new Promise((resolve, reject) => {
+        options.Post.find({
+          town,
+          petType,
+          _id: { $nin: excludedPostIds },
+          isArchived: false
+        })
+          .sort({ creationDate: 'desc' })
+          .limit(count)
+          .exec((err, posts) => {
+            if (err) {
+              console.log(err)
+            }
+            resolve(posts)
+          })
+      })
     }
-
-    Post.findOne({ _id }, (err, post) => {
-      if (err) {
-        console.log(err)
-      }
-      resolve(post)
-    })
-  })
+  }
 }
 
-function getLatest(count, excludedPostIds) {
-  return new Promise((resolve, reject) => {
-    Post.find({
-      // creationDate: { $lt: new Date() },
-      _id: { $nin: excludedPostIds },
-      isArchived: false
-    })
-      .sort({ creationDate: 'desc' })
-      .limit(count)
-      .exec((err, posts) => {
-        if (err) {
-          console.log(err)
-        }
-        resolve(posts)
-      })
-  })
-}
+// const Post = require('../models/post')
 
-function getByTown(town, count, excludedPostIds) {
-  return new Promise((resolve, reject) => {
-    Post.find({
-      town,
-      _id: { $nin: excludedPostIds },
-      isArchived: false
-    })
-      .sort({ creationDate: 'desc' })
-      .limit(count)
-      .exec((err, posts) => {
-        if (err) {
-          console.log(err)
-        }
-        resolve(posts)
-      })
-  })
-}
 
-function getByPetType(petType, count, excludedPostIds) {
-  return new Promise((resolve, reject) => {
-    Post.find({
-      petType,
-      _id: { $nin: excludedPostIds },
-      isArchived: false
-    })
-      .sort({ creationDate: 'desc' })
-      .limit(count)
-      .exec((err, posts) => {
-        if (err) {
-          console.log(err)
-        }
-        resolve(posts)
-      })
-  })
-}
 
-function getByTownAndPetType(town, petType, count, excludedPostIds) {
-  return new Promise((resolve, reject) => {
-    Post.find({
-      town,
-      petType,
-      _id: { $nin: excludedPostIds },
-      isArchived: false
-    })
-      .sort({ creationDate: 'desc' })
-      .limit(count)
-      .exec((err, posts) => {
-        if (err) {
-          console.log(err)
-        }
-        resolve(posts)
-      })
-  })
-}
-
-module.exports = {
-  insertPost,
-  getPostById,
-  updateIsArchivedById,
-  getLatest,
-  getByTown,
-  getByPetType,
-  getByTownAndPetType
-}
+// module.exports = {
+//   insertPost,
+//   getPostById,
+//   updateIsArchivedById,
+//   getLatest,
+//   getByTown,
+//   getByPetType,
+//   getByTownAndPetType
+// }

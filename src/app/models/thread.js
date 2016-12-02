@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const regex = require('mongoose-regex');
 
 let threadSchrema = new mongoose.Schema({
   title: {
@@ -21,6 +22,8 @@ let threadSchrema = new mongoose.Schema({
   messages: []
 });
 
+threadSchrema.plugin(regex);
+threadSchrema.index({title: 'text'});
 mongoose.model("Thread", threadSchrema);
 
 module.exports = mongoose.model("Thread");

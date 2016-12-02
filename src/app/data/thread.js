@@ -1,4 +1,6 @@
 const Thread = require('../models/thread');
+const regex = require('mongoose-regex');
+const MIN_LENGTH = 3;
 
 module.exports = {
   createThread(title, content, username){
@@ -57,14 +59,19 @@ module.exports = {
       })
     })
   },
-  getThreadByTitle(title){
+  searchThreads(pattern, page, pageSize) {
+    let searchOptions = {
+      fieldToSearch: 'title',
+      caseSensitive: false
+    };
+
     return new Promise((resolve, reject) => {
-      Thread.findOne({title: title}, (err, thread) => {
-        if (err) {
+      Thread.regexSearch(pattern, searchOptions, (err, result) => {
+        if (err){
           return reject(err);
         }
 
-        return resolve(thread);
+        return resolve(result);
       })
     })
   }

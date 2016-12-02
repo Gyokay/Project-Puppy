@@ -4,8 +4,8 @@ block content
   h1 Welcome to the Pet Adoption Forum
   div.container-fluid.row
     a.btn.btn-primary.col-md-2(href='/forum/create') Create new topic
-    form.col-md-10(action="/forum/search" method="post")
-      input(type="text" name="title" placeholder="Search Title")
+    form.col-md-10(action="/forum/search" method="GET")
+      input(type="text" name="title" placeholder="Search")
       button Search
   ul.container-fluid.list-group
   each thread in result

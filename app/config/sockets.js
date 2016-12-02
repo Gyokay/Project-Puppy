@@ -1,8 +1,7 @@
 const db = require('../data')
-const request = require('request')
-const timer = require('timers')
+// const request = require('request')
+// const timer = require('timers')
 let connectedUsers = {}
-
 
 module.exports = (server, sessionStore, cookieParser) => {
   const io = require('socket.io')(server)
@@ -28,30 +27,28 @@ module.exports = (server, sessionStore, cookieParser) => {
         }
       }
 
-      let ip
-      if (socket.request.headers['x-forwarded-for']) {
-        ip = socket.request.headers['x-forwarded-for'].split(',')[0]
-      } else if (socket.request.connection && socket.request.connection.remoteAddress) {
-        ip = socket.request.connection.remoteAddress
-      } else {
-        ip = socket.request.ip
-      }
+      // let ip
+      // if (socket.request.headers['x-forwarded-for']) {
+      //   ip = socket.request.headers['x-forwarded-for'].split(',')[0]
+      // } else if (socket.request.connection && socket.request.connection.remoteAddress) {
+      //   ip = socket.request.connection.remoteAddress
+      // } else {
+      //   ip = socket.request.ip
+      // }
 
-      request.get(`https://freegeoip.net/json/${ip}`, (err, res, body) => {
-        if (err || res.statusCode !== 200) {
-          return
-        }
+      // request.get(`https://freegeoip.net/json/${ip}`, (err, res, body) => {
+      //   if (err || res.statusCode !== 200) {
+      //     return
+      //   }
 
-        let userCity = body.city
+      //   let userCity = body.city
 
-        if (userCity === '') {
-          return
-        }
+      //   if (userCity === '') {
+      //     return
+      //   }
 
-        connectedUsers[socket.request.user.username].location = userCity
-
-        initLiveUpdate(userCity)
-      })
+      //   connectedUsers[socket.request.user.username].location = userCity
+      // })
 
       db.Message.getUnseenMessagesCountByReceiver(socket.request.user.username)
         .then(count => {
@@ -63,7 +60,7 @@ module.exports = (server, sessionStore, cookieParser) => {
     // console.log(connectedUsers.request.user.username)
 
     socket.on('send message', data => {
-      //chech if such user exists
+      // chech if such user exists
       db.Users.getUserByUsername(data.receiver)
         .then(user => {
           if (!user) {
@@ -91,16 +88,5 @@ module.exports = (server, sessionStore, cookieParser) => {
       delete connectedUsers[socket.request.user.username]
       // console.log(connectedUsers)
     })
-
-    function initLiveUpdate(city) {
-      db.Post.getByTown(city, 3, [])
-        .then(posts => {
-          if (!posts) {
-            return
-          }
-
-          socket.emit('new post', posts)
-        })
-    }
   })
 }

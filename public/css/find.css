@@ -33,7 +33,8 @@
   margin-bottom: 80px;
 }
 
-.onPostMsg {
+.noPostMsg {
+  color: lightgray;
   text-align: center;
 }
 

@@ -19,6 +19,8 @@ const options = {
   replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }
 }
 
+// producton db connection string
+// mongodb://puppy:project-puppy@ds163667.mlab.com:63667/projectpuppy
 const mongodbUri = 'mongodb://localhost/ProjectPuppyDB'
 mongoose.connect(mongodbUri, options)
 

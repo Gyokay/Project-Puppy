@@ -92,11 +92,11 @@ $(function () {
           $('.ticker').hide()
 
           if ($postsContainer.children().length > 0) {
-            $($postsContainer).append($('<h1>No more results :(</h1>').addClass('noPostMsg'))
+            $($postsContainer).append($('<h3>No more results :(</h3>').addClass('noPostMsg'))
           }
 
           if ($postsContainer.children().length === 0) {
-            $($postsContainer).empty().append($('<h1>No results :(</h1>').addClass('noPostMsg'))
+            $($postsContainer).empty().append($('<h3>No results :(</h3>').addClass('noPostMsg'))
           }
 
           return

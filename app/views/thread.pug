@@ -1,8 +1,10 @@
 extends base-layout
 
 block content
-  h1= result.title
+  h2
+    a(href='/forum') Forum
   div.container-fluid.list-group
+    h3.row.list-group-item= result.title
     div.row.list-group-item
       div= result.content
         hr.dl-horizontal

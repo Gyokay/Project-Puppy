@@ -8,7 +8,7 @@ block content
       input(type="text" name="title" placeholder="Search")
       button Search
   ul.container-fluid.list-group
-  each thread in result
+  each thread in result.threads
       li.list-group-item
         a(href='/forum/' + thread._id)= thread.title
         hr
@@ -17,3 +17,12 @@ block content
           a(href=`/user/${thread.username}`)
             span= thread.username
           |  on #{thread.dateTime.toLocaleString()}
+  ul.list.list-inline.text-center
+    - for(var i = 1; i <= result.pages; i+=1 )
+      li
+        if result.page === i
+          a.btn.btn-primary.disabled(href="/forum?page=" + i)
+            = i
+        else
+          a.btn.btn-default(href="/forum?page=" + i)
+            = i

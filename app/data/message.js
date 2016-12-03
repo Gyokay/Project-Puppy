@@ -78,6 +78,24 @@ module.exports = options => {
       })
     },
 
+    updateAllToSeenByReceiverAndSender (receiver, sender) {
+      return new Promise((resolve, reject) => {
+        options.Message
+          .update(
+          { isSeen: false },
+          { $set: { isSeen: true } },
+          { multi: true }
+          )
+          .where({ receiver, sender })
+          .exec((err, messages) => {
+            if (err) {
+              console.log(err)
+            }
+            resolve(messages)
+          })
+      })
+    },
+
     getAllBySenderAndReceiver (sender, receiver, count) {
       return new Promise((resolve, reject) => {
         options.Message.aggregate([
@@ -104,13 +122,3 @@ module.exports = options => {
     }
   }
 }
-// const Message = require('../models/message')
-
-// module.exports = {
-//   insert,
-//   updateToSeenById,
-//   getAllUniqueSenderNamesByReceaver,
-//   getAllUniqueReceiverNamesBySender,
-//   getAllBySenderAndReceiver,
-//   getUnseenMessagesCountByReceiver
-// }

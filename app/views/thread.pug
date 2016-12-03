@@ -1,8 +1,10 @@
 extends base-layout
 
 block content
-  h1= result.title
+  h2
+    a(href='/forum') Forum
   div.container-fluid.list-group
+    h3.row.list-group-item= result.title
     div.row.list-group-item
       div= result.content
         hr.dl-horizontal
@@ -25,8 +27,8 @@ block content
           |  on #{mes.date.toLocaleString()}
       hr
 
-
-  form.container-fluid.row(action='/forum/' + result._id method="post")
-    textarea.form-control.row(name="message" placeholder="Enter your comment")
-    button
-      | Add comment
+  if user
+    form.container-fluid.row(action='/forum/' + result._id method="post")
+      textarea.form-control.row(name="message" placeholder="Enter your comment")
+      button
+        | Add comment

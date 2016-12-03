@@ -19,6 +19,15 @@
     overflow: auto;
 }
 
+.button {
+    margin-top: 15px;
+    margin-right: 10px;
+}
+
+#searchUser {
+    margin-top: 30px;
+}
+
 html, body {
     background: #E5E5E5;
     font-family: 'Lato', sans-serif;
@@ -237,7 +246,7 @@ a{
 }
 
 .msg time {
-    font-size: 0.7rem;
+    font-size: 1.2rem;
     color: #ccc;
     margin-top: 3px;
     float: right;
@@ -247,13 +256,13 @@ a{
     -moz-user-select: none;
     -ms-user-select: none;
 }
-.msg time:before{
+/*.msg time:before{
     content:"\f017";
     color: #ddd;
     font-family: FontAwesome;
     display: inline-block;
     margin-right: 4px;
-}
+}*/
 
 /*emoji{
     display: inline-block;

@@ -5,16 +5,16 @@ block append head
 block content
   if user
     .row
-      .twelve.columns
+      .twelve.columns.userStats
         p(class='u-pull-right') Hello,&nbsp;
           a(href=`/user/${user.username}`)= user.username
           br
           | you have &nbsp;
           span.msgCount
           span &nbsp; new&nbsp;
-          a(href='/chat') messages
+          a.chatLink(href='/chat') messages
           br
-          a(href='/logout') logout
+          a.button(href='/logout') logout
     .row
       .one-third.column &nbsp;
       .one-third.column

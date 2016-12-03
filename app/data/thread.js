@@ -74,5 +74,37 @@ module.exports = {
         return resolve(result);
       })
     })
+  },
+  getThreads({ page, pageSize }) {
+    let skip = (page - 1) * pageSize,
+      limit = page * pageSize;
+
+    return Promise.all([
+      new Promise((resolve, reject) => {
+        Thread.find()
+          .sort({name: 1})
+          .skip(skip)
+          .limit(limit)
+          .exec((err, threads) => {
+            if (err) {
+              return reject(err);
+            }
+
+            return resolve(threads);
+          });
+      }), new Promise((resolve, reject) => {
+        Thread.count({})
+          .exec((err, count) => {
+            if (err) {
+              return reject(err);
+            }
+
+            return resolve(count);
+          });
+      })
+    ]).then(results => {
+      let [threads, count] = results;
+      return {threads, count};
+    });
   }
 };

@@ -17,10 +17,11 @@ router.post('/getConversation', (req, res) => {
     numberOfMessagesPerRequest
   )
     .then(messages => {
-      // console.log(messages)
-      messages.forEach(message => {
-        db.Message.updateToSeenById(message._id)
-      })
+      db.Message.updateAllToSeenByReceiverAndSender(
+        req.user.username,
+        req.body.receiver
+      )
+
       res.send(messages)
     })
 })

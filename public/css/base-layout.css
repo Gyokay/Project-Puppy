@@ -1,3 +1,8 @@
-.pageTitle {
-  margin-bottom: 80px;
+.userStats {
+  font-size: 1.1em;
+}
+
+.red {
+  font-size: 1.3em;
+  color: orangered;
 }

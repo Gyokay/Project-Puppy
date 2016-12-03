@@ -1,4 +1,6 @@
 $(function () {
+
+
   const socket = io.connect('/')
   let receiver
 
@@ -7,7 +9,11 @@ $(function () {
       return
     }
 
-    $(event.target).removeClass('newMessage')
+    $('.receiver').removeClass('button-primary')
+
+    $(event.target)
+    .removeClass('newMessage')
+    .addClass('button-primary')
 
     $('#chat').empty()
 
@@ -27,16 +33,30 @@ $(function () {
     })
   })
 
+  $(window).focus(function () {
+    if (!receiver) {
+      return
+    }
+
+    socket.emit('seen', { receiver })
+  })
+
+
   $('.send').keypress(function (e) {
     if (e.which === 13) {
       let $target = $(e.target)
       let message = $target.val()
+
+      if (message === '') {
+        return
+      }
+
       $target.val('')
 
       // console.log($(e.target).val())
       socket.emit('send message', { receiver, message })
 
-      appendSingleMessage({ receiver, message })
+      appendSingleMessage({ receiver, message, sentOn: new Date() })
     }
   })
 
@@ -54,7 +74,7 @@ $(function () {
     appendSingleMessage(message)
   })
 
-  function appendMessages (messages) {
+  function appendMessages(messages) {
     messages.forEach(function (message) {
       appendSingleMessage(message)
     })
@@ -62,11 +82,12 @@ $(function () {
     $('.send').css('visibility', 'visible')
   }
 
-  function appendSingleMessage (message) {
+  function appendSingleMessage(message) {
     let $li = $('<li></li>')
     let $msgContainer = $('<div></div>').addClass('msg')
     let $msg = $('<p></p>').text(message.message)
-
+    let $time = $('<time></time>').text(message.sentOn.toLocaleString())
+    // console.log(message.time)
     // if (!message.receiver) {
     //   $li.addClass('self')
     // }
@@ -78,14 +99,15 @@ $(function () {
     }
 
     $msgContainer.append($msg)
+    $msgContainer.append($time)
     $li.append($msgContainer)
     $('#chat').append($li)
 
     scrollToBotton()
   }
 
-  function scrollToBotton () {
-    $('#chat').scrollTop(5000)
+  function scrollToBotton() {
+    $('#chat').scrollTop(10000)
   }
 
   // user search logic
@@ -136,9 +158,19 @@ $(function () {
   })
 
   $('#usernames').click(function (e) {
+    let $target = $(e.target)
+
+    if ($target.children().length === 0) {
+      return
+    }
+
     let isPresent = $('.receiver').filter(function () {
-      return $(this).text() === $(e.target).val()
+      return $(this).text() === $target.val()
     })
+
+    if ($target.val() === null || '') {
+      return
+    }
 
     // console.log(isPresent)
 
@@ -146,7 +178,6 @@ $(function () {
       return
     }
 
-    let $target = $(e.target)
     let $pEl = $('<button></button>').addClass('receiver button').text($target.val())
     $('.usernamesContainer').prepend($pEl)
   })

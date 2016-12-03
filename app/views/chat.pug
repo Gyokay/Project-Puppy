@@ -6,11 +6,6 @@ block append head
 block content
   input(id='searchUser' type='text', placeholder='search user')
   select(id='usernames')
-    option(
-      value=''
-      disabled
-      selected
-    )
   .usernamesContainer
     each name in uniqueUsernames
       button(

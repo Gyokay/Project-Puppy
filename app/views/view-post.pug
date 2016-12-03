@@ -8,8 +8,6 @@ block content
     if isArchived
         h1 This post is archived
 
-
-
     .row
         .postTitle.twelve.columns
             h1= title
@@ -46,6 +44,24 @@ block content
     .row
         #postDescription.eight.columns
             p= description
+
+    .row
+      each mes in messages
+        li.list-group-item
+          div= mes.content.message
+          hr
+          div
+            | Posted by 
+            a(href=`/user/${mes.user}`)
+             span= mes.user
+            |  on #{mes.date.toLocaleString()}
+        hr
+
+    .row
+      form.container-fluid.row(action=`/post/${_id}` method="post")
+        textarea.form-control.row(name="message" placeholder="Enter your comment")
+        button
+          | Add comment
     //- .row.postImages
     //-     each image in imgUrls
     //-         .six.columns.image

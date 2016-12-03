@@ -12,4 +12,8 @@ block content
       li.list-group-item
         a(href='/forum/' + thread._id)= thread.title
         hr
-        span &nbsp Posted by #{thread.username} on #{thread.dateTime.toLocaleString()}
+        div
+          | Posted by 
+          a(href=`/user/${thread.username}`)
+            span= thread.username
+          |  on #{thread.dateTime.toLocaleString()}

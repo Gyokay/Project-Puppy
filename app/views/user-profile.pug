@@ -1,1 +1,27 @@
-h1 The profile of: #{username}
+extends base-layout
+
+block append head
+  link(rel='stylesheet' href='/css/view-post.css')
+
+block content
+
+    .row
+        .postTitle.twelve.columns
+            h1 The profile of: #{username}
+
+    .row
+        .eight.columns
+        .four.columns.u-max-fullwidth
+            ul
+                li Username:
+                        p= username
+                li Email:
+                    p= email
+
+            if !isOwner
+                a.button.button-primary(
+                    href=`/chat/${username}`
+                ) Contact
+
+block append scripts
+    script(src='/js/view-post.js')

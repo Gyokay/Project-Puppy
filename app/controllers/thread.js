@@ -18,7 +18,8 @@ router
 
         if (count === 0) {
           return res.render("forum", {
-            result: {threads, page, pages: 1 }
+            result: {threads, page, pages: 1 },
+            user: { user: req.user }
           });
         }
 
@@ -37,7 +38,8 @@ router
         }
 
         return res.render("forum", {
-          result: {threads, page, pages}
+          result: {threads, page, pages},
+          user: { user: req.user }
         });
       }))
       .catch(err => {
@@ -72,11 +74,16 @@ router
     db.Thread.getThreadById(id)
       .then((thread) => {
         res.render('thread', {
-          result: thread
+          result: thread,
+          user: req.user
         });
       })
   })
   .post('/create', (req, res) => {
+    if (!req.isAuthenticated()) {
+      res.redirect('/login');
+      return;
+    }
     let {
       title,
       content
@@ -89,6 +96,10 @@ router
       })
   })
   .post('/:id', (req, res) => {
+    if (!req.isAuthenticated()) {
+      res.redirect('/login');
+      return;
+    }
     let id = req.params.id;
     let user = req.user.username;
     let content = req.body;

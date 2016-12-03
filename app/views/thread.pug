@@ -27,8 +27,8 @@ block content
           |  on #{mes.date.toLocaleString()}
       hr
 
-
-  form.container-fluid.row(action='/forum/' + result._id method="post")
-    textarea.form-control.row(name="message" placeholder="Enter your comment")
-    button
-      | Add comment
+  if user
+    form.container-fluid.row(action='/forum/' + result._id method="post")
+      textarea.form-control.row(name="message" placeholder="Enter your comment")
+      button
+        | Add comment

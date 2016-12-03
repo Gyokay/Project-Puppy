@@ -6,7 +6,11 @@ block content
     div.row.list-group-item
       div= result.content
         hr.dl-horizontal
-      div Posted by #{result.username} on #{result.dateTime.toLocaleString()}
+      div
+          | Posted by 
+          a(href=`/user/${result.username}`)
+            span= result.username
+          |  on #{result.dateTime.toLocaleString()}
     h3 Answers
     div.container-fluid.list-group
     ul.row
@@ -14,7 +18,11 @@ block content
       li.list-group-item
         div= mes.content.message
         hr
-        div Posted by #{mes.user} on #{mes.date.toLocaleString()}
+        div
+          | Posted by 
+          a(href=`/user/${mes.user}`)
+            span= mes.user
+          |  on #{mes.date.toLocaleString()}
       hr
 
 

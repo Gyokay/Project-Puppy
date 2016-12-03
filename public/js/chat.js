@@ -62,10 +62,18 @@ $(function () {
 
   socket.on('receiver message', message => {
     if (receiver !== message.sender) {
-      $('.receiver').filter(function () {
+      let currentReceiver = $('.receiver').filter(function () {
         return $(this).text() === message.sender
       })
-        .addClass('newMessage')
+
+      if (currentReceiver.is('.button')) {
+        currentReceiver.addClass('newMessage')
+      } else {
+        addReceiverButton(message.sender, true)
+      }
+
+
+      console.log(currentReceiver)
 
       return
     }
@@ -178,7 +186,16 @@ $(function () {
       return
     }
 
-    let $pEl = $('<button></button>').addClass('receiver button').text($target.val())
-    $('.usernamesContainer').prepend($pEl)
+    addReceiverButton($target.val())
   })
+
+  function addReceiverButton(username, isNewMessage) {
+    let $pEl = $('<button></button>').addClass('receiver button').text(username)
+
+    if (isNewMessage) {
+      $pEl.addClass('newMessage')
+    }
+
+    $('.usernamesContainer').prepend($pEl)
+  }
 })

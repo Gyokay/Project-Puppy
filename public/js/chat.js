@@ -1,4 +1,6 @@
 $(function () {
+
+
   const socket = io.connect('/')
   let receiver
 
@@ -27,6 +29,15 @@ $(function () {
     })
   })
 
+  $(window).focus(function () {
+    if (!receiver) {
+      return
+    }
+
+    socket.emit('seen', { receiver })
+  })
+
+
   $('.send').keypress(function (e) {
     if (e.which === 13) {
       let $target = $(e.target)
@@ -36,7 +47,7 @@ $(function () {
       // console.log($(e.target).val())
       socket.emit('send message', { receiver, message })
 
-      appendSingleMessage({ receiver, message })
+      appendSingleMessage({ receiver, message, sentOn: new Date().toLocaleString() })
     }
   })
 
@@ -54,7 +65,7 @@ $(function () {
     appendSingleMessage(message)
   })
 
-  function appendMessages (messages) {
+  function appendMessages(messages) {
     messages.forEach(function (message) {
       appendSingleMessage(message)
     })
@@ -62,11 +73,12 @@ $(function () {
     $('.send').css('visibility', 'visible')
   }
 
-  function appendSingleMessage (message) {
+  function appendSingleMessage(message) {
     let $li = $('<li></li>')
     let $msgContainer = $('<div></div>').addClass('msg')
     let $msg = $('<p></p>').text(message.message)
-
+    let $time = $('<time></time>').text(message.sentOn)
+    // console.log(message.time)
     // if (!message.receiver) {
     //   $li.addClass('self')
     // }
@@ -78,13 +90,14 @@ $(function () {
     }
 
     $msgContainer.append($msg)
+    $msgContainer.append($time)
     $li.append($msgContainer)
     $('#chat').append($li)
 
     scrollToBotton()
   }
 
-  function scrollToBotton () {
+  function scrollToBotton() {
     $('#chat').scrollTop(5000)
   }
 
@@ -136,8 +149,14 @@ $(function () {
   })
 
   $('#usernames').click(function (e) {
+    let $target = $(e.target)
+
+    if ($target.children().length === 0) {
+      return
+    }
+
     let isPresent = $('.receiver').filter(function () {
-      return $(this).text() === $(e.target).val()
+      return $(this).text() === $target.val()
     })
 
     // console.log(isPresent)
@@ -146,7 +165,6 @@ $(function () {
       return
     }
 
-    let $target = $(e.target)
     let $pEl = $('<button></button>').addClass('receiver button').text($target.val())
     $('.usernamesContainer').prepend($pEl)
   })

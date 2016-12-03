@@ -67,20 +67,31 @@ module.exports = (server, sessionStore, cookieParser) => {
             console.log('No such receiver username!')
             return
           }
+          // console.log(data)
+
+          if (connectedUsers[data.receiver]) {
+            connectedUsers[data.receiver].socket
+              .emit('receiver message', {
+                receiver: data.receiver,
+                sender: socket.request.user.username,
+                message: data.message,
+                sentOn: new Date().toLocaleString()
+              })
+          }
 
           db.Message.insert(
             data.message,
             socket.request.user.username,
             data.receiver
           )
-            .then(message => {
-              // console.log(message)
-              if (connectedUsers[message.receiver]) {
-                connectedUsers[message.receiver].socket
-                  .emit('receiver message', message)
-              }
-            })
         })
+    })
+
+    socket.on('seen', data => {
+      db.Message.updateAllToSeenByReceiverAndSender(
+        socket.request.user.username,
+        data.receiver
+      )
     })
 
     socket.on('disconnect', () => {

@@ -2,13 +2,15 @@ extends base-layout
 
 block append head
   //- put custom css here
+  link(rel='stylesheet', href='/css/create-post.css')
+
 
 block content
   if errors
     each err in errors
       h3= err.msg
 
-  form(
+  form#submitPost(
     enctype="multipart/form-data"
     action='/post/create-post'
     method='post'
@@ -43,7 +45,7 @@ block content
             id='descriptionInput'
             class='u-full-width'
             name='description'
-            placeholder='description'            
+            placeholder='description'
           )=description
           else
             textarea(

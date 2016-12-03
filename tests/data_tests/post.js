@@ -1,7 +1,8 @@
 /* eslint-env mocha */
-
-const expect = require('chai').expect
-
+const chai = require('chai')
+const expect = chai.expect
+const chaiAsPromised = require('chai-as-promised')
+chai.use(chaiAsPromised)
 describe('Post data leyer', () => {
   let postDataLayer
 
@@ -10,6 +11,21 @@ describe('Post data leyer', () => {
       Post: {
         findOne(obj, cb) {
           cb(null, obj)
+        },
+        find() {
+          return {
+            sort() {
+              return {
+                limit() {
+                  return {
+                    exec(cb) {
+                      cb(null, [])
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     })
@@ -32,6 +48,30 @@ describe('Post data leyer', () => {
         .then(obj => {
           expect(obj).to.equal(null)
         })
+    })
+  })
+
+  describe('getLatest', () => {
+    it('should return promise and resolve to array', () => {
+      return expect(postDataLayer.getLatest()).to.eventually.be.instanceOf(Array)
+    })
+  })
+
+  describe('getByTown', () => {
+    it('should return promise and resolve to array', () => {
+      return expect(postDataLayer.getByTown()).to.eventually.be.instanceOf(Array)
+    })
+  })
+
+  describe('getByPetType', () => {
+    it('should return promise and resolve to array', () => {
+      return expect(postDataLayer.getByPetType()).to.eventually.be.instanceOf(Array)
+    })
+  })
+
+  describe('getByTownAndPetType', () => {
+    it('should return promise and resolve to array', () => {
+      return expect(postDataLayer.getByTownAndPetType()).to.eventually.be.instanceOf(Array)
     })
   })
 })

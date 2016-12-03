@@ -9,7 +9,11 @@ $(function () {
       return
     }
 
-    $(event.target).removeClass('newMessage')
+    $('.receiver').removeClass('button-primary')
+
+    $(event.target)
+    .removeClass('newMessage')
+    .addClass('button-primary')
 
     $('#chat').empty()
 
@@ -42,12 +46,17 @@ $(function () {
     if (e.which === 13) {
       let $target = $(e.target)
       let message = $target.val()
+
+      if (message === '') {
+        return
+      }
+
       $target.val('')
 
       // console.log($(e.target).val())
       socket.emit('send message', { receiver, message })
 
-      appendSingleMessage({ receiver, message, sentOn: new Date().toLocaleString() })
+      appendSingleMessage({ receiver, message, sentOn: new Date() })
     }
   })
 
@@ -77,7 +86,7 @@ $(function () {
     let $li = $('<li></li>')
     let $msgContainer = $('<div></div>').addClass('msg')
     let $msg = $('<p></p>').text(message.message)
-    let $time = $('<time></time>').text(message.sentOn)
+    let $time = $('<time></time>').text(message.sentOn.toLocaleString())
     // console.log(message.time)
     // if (!message.receiver) {
     //   $li.addClass('self')
@@ -98,7 +107,7 @@ $(function () {
   }
 
   function scrollToBotton() {
-    $('#chat').scrollTop(5000)
+    $('#chat').scrollTop(10000)
   }
 
   // user search logic
@@ -158,6 +167,10 @@ $(function () {
     let isPresent = $('.receiver').filter(function () {
       return $(this).text() === $target.val()
     })
+
+    if ($target.val() === null || '') {
+      return
+    }
 
     // console.log(isPresent)
 

@@ -3,22 +3,23 @@ const chai = require('chai')
 const expect = chai.expect
 const chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
+
 describe('Post data leyer', () => {
   let postDataLayer
 
   beforeEach(() => {
     postDataLayer = require('../../app/data/post')({
       Post: {
-        findOne(obj, cb) {
+        findOne (obj, cb) {
           cb(null, obj)
         },
-        find() {
+        find () {
           return {
-            sort() {
+            sort () {
               return {
-                limit() {
+                limit () {
                   return {
-                    exec(cb) {
+                    exec (cb) {
                       cb(null, [])
                     }
                   }

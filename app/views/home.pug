@@ -3,15 +3,8 @@ extends base-layout
 block append head
 
 block content
-  .row
-  if !user
-      .three.columns
-        a(class='button' href='/register') Register
-      .three.columns
-        a(class='button' href='/login') Login
-  else
+  if user
     .row
-      a(class='button' href='/post/create-post') Create new post
       .twelve.columns
         p(class='u-pull-right') Hello,&nbsp;
           a(href=`/user/${user.username}`)= user.username
@@ -22,9 +15,31 @@ block content
           a(href='/chat') messages
           br
           a(href='/logout') logout
+    .row
+      .one-third.column &nbsp;
+      .one-third.column
+        a(class='button u-full-width' href='/post/create-post') Create new post
+  .row
+    .one-third.column &nbsp;
+    .one-third.column
+      a(class='button button-primary u-full-width' href='/find') Find Pet
+  .row
 
-  .three.columns
-    a(class='button button-primary' href='/find') Find Pet
+    .one-third.column &nbsp;
+    .one-third.column
+      a.button.u-full-width(href='/forum') see our forum
+
+
+  if !user
+    .row
+      .one-third.column &nbsp;
+      .one-third.column
+        a.u-full-width(class='button' href='/register') Register
+    .row
+      .one-third.column &nbsp;
+      .one-third.column
+        a.u-full-width(class='button' href='/login') Login
+
 
 block append scripts
   script(src="/socket.io/socket.io.js")

@@ -83,4 +83,10 @@ describe('Message data layer', () => {
       return expect(result).to.eventually.be.instanceof(Array)
     })
   })
+
+  // describe('updateAllToSeenByReceiverAndSender', () => {
+  //   it('should return pomise and resolve', () => {
+  //     let result =
+  //   })
+  // })
 })

@@ -8,7 +8,7 @@ $(function() {
 
     $('#submitComment').submit(function(e) {
         // Get value
-        let comment = $('#commentInput').val();
+        let comment = $('#commentInput').val().trim();
 
         // Remove errors if any
         $('.error').remove();

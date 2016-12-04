@@ -121,5 +121,20 @@ module.exports = {
         return resolve(thread);
       })
     })
+  },
+  getThreadByIdAndUpdateMessages(id, date, message){
+    return new Promise((resolve, reject) => {
+      Thread.findOneAndUpdate(
+        {_id: id, "messages": {date}},
+        {$set: {"messages$": {content: {message: message}}}},
+        {new: true},
+        (err, thread) => {
+          if (err) {
+            return reject(err);
+          }
+
+          return resolve(thread);
+        })
+    })
   }
 };

@@ -45,7 +45,7 @@ $(function () {
   $('.send').keypress(function (e) {
     if (e.which === 13) {
       let $target = $(e.target)
-      let message = $target.val()
+      let message = $target.val().trim()
 
       if (message === '') {
         return

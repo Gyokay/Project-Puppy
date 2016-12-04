@@ -13,9 +13,9 @@ $(function () {
   let errors = new Set()
 
   $('#submitRegister').submit(function (e) {
-    let username = $('#usernameInput').val()
-    let email = $('#emailInput').val()
-    let password = $('#passwordInput').val()
+    let username = $('#usernameInput').val().trim()
+    let email = $('#emailInput').val().trim()
+    let password = $('#passwordInput').val().trim()
 
     if (username.length < minUsernameLength) {
       errors.add(shortUsernameErrMsg)

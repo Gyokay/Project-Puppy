@@ -20,8 +20,8 @@ $(function () {
   let errors = new Set()
 
   $('#submitPost').submit(function (e) {
-    let title = $('#titleInput').val()
-    let description = $('#descriptionInput').val()
+    let title = $('#titleInput').val().trim()
+    let description = $('#descriptionInput').val().trim()
     let towns = $('#towns').val()
     let petType = $('#petType').val()
     let files = $('input:file', this)[0].files

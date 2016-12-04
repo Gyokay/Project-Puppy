@@ -26,7 +26,9 @@ block content
             span= mes.user
           |  on #{mes.date.toLocaleString()}
       hr
-
+  if errors
+    each error in errors
+      h3= error.msg
   if user
     form.container-fluid.row(action='/forum/' + result._id method="post")
       textarea.form-control.row(name="message" placeholder="Enter your comment")

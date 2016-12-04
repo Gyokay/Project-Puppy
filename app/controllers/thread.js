@@ -57,7 +57,9 @@ router
   // })
 
   .get('/create', (req, res) => {
-    res.render('create-thread');
+    res.render('create-thread', { success: req.session.success, errors: req.session.errors });
+    req.session.errors = [];
+    req.session.save();
   })
   .get('/search', (req, res) => {
     let title = req.query.title;
@@ -75,8 +77,11 @@ router
       .then((thread) => {
         res.render('thread', {
           result: thread,
-          user: req.user
+          user: req.user,
+          errors: req.session.errors
         });
+        req.session.errors = [];
+        req.session.save();
       })
   })
   .post('/create', (req, res) => {
@@ -84,6 +89,20 @@ router
       res.redirect('/login');
       return;
     }
+    req.checkBody('title', 'Title must be between 6 - 50 characters')
+      .len(6, 50);
+
+    req.checkBody('content', 'Content must be between 6 - 500 characters')
+      .len(6, 500);
+
+    let errors = req.validationErrors();
+
+    if (errors) {
+      req.session.errors = errors;
+      res.redirect('/forum/create');
+      return;
+    }
+
     let {
       title,
       content
@@ -100,7 +119,20 @@ router
       res.redirect('/login');
       return;
     }
+
     let id = req.params.id;
+
+    req.checkBody('message', 'Comment must be between 6 - 500 characters')
+      .len(6, 500);
+
+    let errors = req.validationErrors();
+
+    if (errors) {
+      req.session.errors = errors;
+      res.redirect(`/forum/${id}`);
+      return;
+    }
+
     let user = req.user.username;
     let content = req.body;
     db.Thread.addMessageToThreadById(

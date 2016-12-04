@@ -7,11 +7,11 @@ block content
 
     .row
         .postTitle.twelve.columns
-            h1 The profile of: #{username}
+            h2 User profile of: #{username}
 
     .row
-        .eight.columns
-        .four.columns.u-max-fullwidth
+     .col
+        .six.columns.u-pull-left
             ul
                 li Username:
                         p= username
@@ -22,12 +22,12 @@ block content
                 a.button.button-primary(
                     href=`/chat/${username}`
                 ) Contact
-    .row
-      h1 #{username}'s posts
-      each post in posts
-        li.list-group-item
-          div= post.title
-          hr
-          div
-            img.object-fit_cover.u-full-width(src= post.imgUrls[0])
-        hr
+     .col
+       .six.columns
+         h4 #{username}'s posts
+         div.container
+          ul
+           each post in posts
+            li
+              div= post.title
+              img.object-fit_cover.u-full-width(src= post.imgUrls[0])

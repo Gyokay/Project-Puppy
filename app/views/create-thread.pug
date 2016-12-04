@@ -7,8 +7,11 @@ block content
   if errors
     each error in errors
       h3= error.msg
-  form(action="/forum/create" method="post")
-    input.form-control(type="text" name="title" placeholder="Enter Title")
-    textarea.form-control(name="content" placeholder="Enter your question")
+  form#submitPost(action="/forum/create" method="post")
+    input.form-control(type="text" name="title" placeholder="Enter Title" id='titleInput')
+    textarea.form-control(name="content" placeholder="Enter your question" id='descriptionInput')
     button
       | Create
+
+block append scripts
+  script(src='/js/create-thread.js')

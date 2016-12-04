@@ -1,5 +1,5 @@
 $(function() {
-    const minCommentLength = 1,
+    const minCommentLength = 6,
         maxCommentLength = 300,
         msgError = 'The {0} must be between {1} and {2} characters long!',
         errorHtmlTag = '<p class=\'error alert\'>{0}</p>';

@@ -64,7 +64,7 @@ router
   .get('/search', (req, res) => {
     let title = req.query.title;
     let page = Number(req.query.page || DEFAULT_PAGE);
-    let user = req.user
+    let user = req.user;
     db.Thread.searchThreads(title, page, PAGE_SIZE)
       .then((threads) => {
         res.render('forum', {
@@ -143,18 +143,17 @@ router
       db.Thread.getThreadByIdAndUpdate(id, title, content)
         .then((thread) => {
           res.redirect(`/forum/${id}/`);
-          console.log(thread);
         })
     }
   })
   .post('/:id/modify/:data', (req, res) => {
     let id = req.params.id;
-    let data = req.params.data;
+    let answerId = +req.params.data;
     let message = req.body.message;
 
-    db.Thread.getThreadByIdAndUpdateMessages(id, data, message)
+    db.Thread.getThreadByIdAndUpdateMessages(id, answerId, message)
       .then((thread)=>{
-      console.log(thread);
+        res.redirect(`/forum/${id}/`);
       })
   })
   .post('/:id', (req, res) => {

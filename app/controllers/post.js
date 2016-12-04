@@ -151,7 +151,7 @@ router.get('/:postId', (req, res) => {
         imgUrls: post.imgUrls,
         isArchived: post.isArchived,
         messages: post.messages,
-        isOwner: post.isOwner,
+        isOwner,
         _id: post._id
       })
     })

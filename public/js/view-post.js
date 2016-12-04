@@ -9,7 +9,7 @@ $(function () {
       },
       success: function (post) {
         if (post.ok) {
-          $('#archive').replaceWith('<p>Successfully archived post</p>')
+          $('#archive').replaceWith("<p class='alert success'>Successfully archived post</p>")
         }
       }
     })
@@ -17,6 +17,5 @@ $(function () {
 
   // imageviewer
   $.fn.viewer
-
   $('.images').viewer()
 })

@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require('../data');
 
 const DEFAULT_PAGE = 1,
-  PAGE_SIZE = 5;
+  PAGE_SIZE = 10;
 
 router
   .get('/', (req, res) => {
@@ -18,8 +18,8 @@ router
 
         if (count === 0) {
           return res.render("forum", {
-            result: {threads, page, pages: 1 },
-            user: { user: req.user }
+            result: {threads, page, pages: 1},
+            user: {user: req.user}
           });
         }
 
@@ -39,7 +39,7 @@ router
 
         return res.render("forum", {
           result: {threads, page, pages},
-          user: { user: req.user }
+          user: {user: req.user}
         });
       }))
       .catch(err => {
@@ -47,27 +47,44 @@ router
           .send(err);
       })
   })
-    // (req, res) => {
-    // db.Thread.getAllThreads()
-    //   .then((threads) => {
-    //     res.render('forum', {
-    //       result: threads
-    //     });
-    //   })
+  // (req, res) => {
+  // db.Thread.getAllThreads()
+  //   .then((threads) => {
+  //     res.render('forum', {
+  //       result: threads
+  //     });
+  //   })
   // })
 
   .get('/create', (req, res) => {
-    res.render('createThread');
+    res.render('create-thread', {success: req.session.success, errors: req.session.errors});
+    req.session.errors = [];
+    req.session.save();
   })
   .get('/search', (req, res) => {
     let title = req.query.title;
     let page = Number(req.query.page || DEFAULT_PAGE);
     db.Thread.searchThreads(title, page, PAGE_SIZE)
-      .then((threads)=>{
+      .then((threads) => {
         res.render('forum', {
           result: {threads}
         });
       })
+  })
+  .get('/:id/modify', (req, res) => {
+    let id = req.params.id;
+    let user = req.user;
+    if (user.role === 'admin') {
+      db.Thread.getThreadById(id)
+        .then((thread) => {
+          res.render('thread-admin', {
+            result: thread,
+            id: id
+          });
+        });
+    } else {
+      res.redirect(`/forum/${id}`);
+    }
   })
   .get('/:id', (req, res) => {
     let id = req.params.id;
@@ -75,8 +92,11 @@ router
       .then((thread) => {
         res.render('thread', {
           result: thread,
-          user: req.user
+          user: req.user,
+          errors: req.session.errors
         });
+        req.session.errors = [];
+        req.session.save();
       })
   })
   .post('/create', (req, res) => {
@@ -84,6 +104,20 @@ router
       res.redirect('/login');
       return;
     }
+    req.checkBody('title', 'Title must be between 6 - 50 characters')
+      .len(6, 50);
+
+    req.checkBody('content', 'Content must be between 6 - 500 characters')
+      .len(6, 500);
+
+    let errors = req.validationErrors();
+
+    if (errors) {
+      req.session.errors = errors;
+      res.redirect('/forum/create');
+      return;
+    }
+
     let {
       title,
       content
@@ -95,12 +129,44 @@ router
         return res.redirect(`/forum/${thread._id}`);
       })
   })
+  .post('/:id/modify', (req, res) => {
+    if (req.user.role !== 'admin'){
+      res.redirect('/forum');
+    }
+    let id = req.params.id;
+    let title = req.body.title;
+    let content = req.body.content;
+    let message = req.body;
+
+    if(title && content){
+      db.Thread.getThreadByIdAndUpdate(id, title, content)
+        .then((thread)=>{
+        res.redirect(`/forum/${id}/`);
+        console.log(thread);
+        })
+    }else{
+      console.log(message);
+    }
+  })
   .post('/:id', (req, res) => {
     if (!req.isAuthenticated()) {
       res.redirect('/login');
       return;
     }
+
     let id = req.params.id;
+
+    req.checkBody('message', 'Comment must be between 6 - 500 characters')
+      .len(6, 500);
+
+    let errors = req.validationErrors();
+
+    if (errors) {
+      req.session.errors = errors;
+      res.redirect(`/forum/${id}`);
+      return;
+    }
+
     let user = req.user.username;
     let content = req.body;
     db.Thread.addMessageToThreadById(

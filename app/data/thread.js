@@ -106,5 +106,20 @@ module.exports = {
       let [threads, count] = results;
       return {threads, count};
     });
+  },
+  getThreadByIdAndUpdate(id, title, content){
+    return new Promise((resolve, reject) => {
+      Thread.findOneAndUpdate(
+        {_id: id},
+        {$set:{title:title, content: content}},
+        {new: true},
+        (err, thread) => {
+        if (err) {
+          return reject(err);
+        }
+
+        return resolve(thread);
+      })
+    })
   }
 };

@@ -1,6 +1,4 @@
 $(function () {
-
-
   const socket = io.connect('/')
   let receiver
 
@@ -41,7 +39,6 @@ $(function () {
     socket.emit('seen', { receiver })
   })
 
-
   $('.send').keypress(function (e) {
     if (e.which === 13) {
       let $target = $(e.target)
@@ -72,7 +69,6 @@ $(function () {
         addReceiverButton(message.sender, true)
       }
 
-
       console.log(currentReceiver)
 
       return
@@ -82,7 +78,7 @@ $(function () {
     appendSingleMessage(message)
   })
 
-  function appendMessages(messages) {
+  function appendMessages (messages) {
     messages.forEach(function (message) {
       appendSingleMessage(message)
     })
@@ -90,7 +86,7 @@ $(function () {
     $('.send').css('visibility', 'visible')
   }
 
-  function appendSingleMessage(message) {
+  function appendSingleMessage (message) {
     let $li = $('<li></li>')
     let $msgContainer = $('<div></div>').addClass('msg')
     let $msg = $('<p></p>').text(message.message)
@@ -114,7 +110,7 @@ $(function () {
     scrollToBotton()
   }
 
-  function scrollToBotton() {
+  function scrollToBotton () {
     $('#chat').scrollTop(10000)
   }
 
@@ -189,7 +185,7 @@ $(function () {
     addReceiverButton($target.val())
   })
 
-  function addReceiverButton(username, isNewMessage) {
+  function addReceiverButton (username, isNewMessage) {
     let $pEl = $('<button></button>').addClass('receiver button').text(username)
 
     if (isNewMessage) {

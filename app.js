@@ -79,9 +79,15 @@ require('./app/config/sockets')(server, sessionStore, cookieParser)
 // load controllers
 app.use(require('./app/controllers'))
 
+
+// catch unhandled routes
+app.get('/*', (req, res) => {
+  res.render('not-found')
+})
+
 // error handler
 // app.use((err, req, res, next) => {
-
+//   console.log(err)
 // })
 
 // start app

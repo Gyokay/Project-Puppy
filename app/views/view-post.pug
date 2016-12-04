@@ -3,95 +3,67 @@ extends base-layout
 block append head
   link(rel='stylesheet' href='/css/view-post.css')
   link(rel='stylesheet' href='/components/imageviewer/dist/viewer.css')
+  link(rel='stylesheet' href='/css/alert.css')
 
 block content
-    if isArchived
-        h1 This post is archived
+  if isArchived
+    p.alert.error This post is archived!
 
-    .row
-        .postTitle.twelve.columns
-            h1= title
+  .row
+    .postTitle.twelve.columns
+      h1= title
 
-    .row
-        .eight.columns
-            .imgContainer
-                ul.images
-                    each url in imgUrls
-                        li
-                            img.object-fit_cover.u-full-width(
-                                src= url
-                            )
-        .four.columns.u-max-fullwidth
-            if isOwner && !isArchived
-                button#archive.button Archive post
+  .row
+    .eight.columns
+      .imgContainer
+        ul.images
+          each url in imgUrls
+            li
+              img.object-fit_cover.u-full-width(
+                src= url
+              )
+    .four.columns.u-max-fullwidth
+      if isOwner && !isArchived
+        button#archive.button Archive post
 
-            if !isOwner
-                a.button.button-primary(
-                    href=`/chat/${ownerUsername}`
-                ) Contact
-            ul
-                li posted by:
-                    a(href=`/user/${ownerUsername}`)
-                        p= ownerUsername
-                li city:
-                    p= town
+      if !isOwner
+        a.button.button-primary(
+          href=`/chat/${ownerUsername}`
+        ) Contact
+      ul
+        li posted by:
+          a(href=`/user/${ownerUsername}`)
+            p= ownerUsername
+        li city:
+          p= town
 
-                li pet type:
-                    p= petType
-                li posted on:
-                    p= date
+        li pet type:
+          p= petType
+        li posted on:
+          p= date
 
-    .row
-        #postDescription.eight.columns
-            p= description
+  .row
+    #postDescription.eight.columns
+      p= description
 
-    .row
-      each mes in messages
-        li.list-group-item
-          div= mes.content.message
-          hr
-          div
-            | Posted by 
-            a(href=`/user/${mes.user}`)
-             span= mes.user
-            |  on #{mes.date.toLocaleString()}
+  .row
+    each mes in messages
+      li.list-group-item
+        div= mes.content.message
         hr
+        div
+          | Posted by
+          a(href=`/user/${mes.user}`)
+            span= mes.user
+          |  on #{mes.date.toLocaleString()}
+      hr
 
-    .row
-      form.container-fluid.row(action=`/post/${_id}` method="post")
-        textarea.form-control.row(name="message" placeholder="Enter your comment")
-        button
-          | Add comment
-    //- .row.postImages
-    //-     each image in imgUrls
-    //-         .six.columns.image
-    //-             img(
-    //-                 src=image
-    //-             )
-    //- .row
-    //-     .five.columns
-    //-         h1=title
-    //- .row
-    //-     .six.columns.postTitle
-    //-         p Description
-    //-     .six.columns
-    //-         sapn=description
-    //- .row
-    //-     .six.columns.postTitle
-    //-         p Owner Username
-    //-     .six.columns
-    //-         sapn=ownerUsername
-    //- .row
-    //-     .six.columns.postTitle
-    //-         p Town
-    //-     .six.columns
-    //-         sapn=town
-    //- .row
-    //-     .six.columns.postTitle
-    //-         p Pet Type
-    //-     .six.columns
-    //-         sapn=petType
+  .row
+    form.container-fluid.row(action=`/post/${_id}` method="post")
+      textarea.form-control.row(name="message" placeholder="Enter your comment")
+      button
+        | Add comment
 
 block append scripts
-    script(src='/components/imageviewer/dist/viewer.js')
-    script(src='/js/view-post.js')
+  script(src='/components/imageviewer/dist/viewer.js')
+  script(src='/js/view-post.js')

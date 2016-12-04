@@ -64,10 +64,12 @@ router
   .get('/search', (req, res) => {
     let title = req.query.title;
     let page = Number(req.query.page || DEFAULT_PAGE);
+    let user = req.user
     db.Thread.searchThreads(title, page, PAGE_SIZE)
       .then((threads) => {
         res.render('forum', {
-          result: {threads}
+          result: {threads},
+          user: user
         });
       })
   })
@@ -130,23 +132,30 @@ router
       })
   })
   .post('/:id/modify', (req, res) => {
-    if (req.user.role !== 'admin'){
+    if (req.user.role !== 'admin') {
       res.redirect('/forum');
     }
     let id = req.params.id;
     let title = req.body.title;
     let content = req.body.content;
-    let message = req.body;
 
-    if(title && content){
+    if (title && content) {
       db.Thread.getThreadByIdAndUpdate(id, title, content)
-        .then((thread)=>{
-        res.redirect(`/forum/${id}/`);
-        console.log(thread);
+        .then((thread) => {
+          res.redirect(`/forum/${id}/`);
+          console.log(thread);
         })
-    }else{
-      console.log(message);
     }
+  })
+  .post('/:id/modify/:data', (req, res) => {
+    let id = req.params.id;
+    let data = req.params.data;
+    let message = req.body.message;
+
+    db.Thread.getThreadByIdAndUpdateMessages(id, data, message)
+      .then((thread)=>{
+      console.log(thread);
+      })
   })
   .post('/:id', (req, res) => {
     if (!req.isAuthenticated()) {

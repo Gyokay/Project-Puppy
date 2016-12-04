@@ -22,9 +22,9 @@ block content
     div.container-fluid.list-group
    ul.row
    -for(var i=0; i < result.messages.length; i+=1)
-    form(action=`/forum/${id}/modify/` method='POST')
+    form(action=`/forum/${id}/modify/data=${result.messages[i].date}` method='POST')
      li.list-group-item
-       textarea(name=`message=${i}`).list-group-item.col-md-12= result.messages[i].content.message
+       textarea(name='message').list-group-item.col-md-12= result.messages[i].content.message
        hr
        div
          | Posted by

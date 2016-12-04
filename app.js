@@ -85,6 +85,10 @@ app.use(require('./app/controllers'))
 // })
 
 // start app
-server.listen(process.env.PORT || 3000, function () {
-  console.log('App listening on port 3000!')
-})
+if (require.main === module) {
+  server.listen(process.env.PORT || 3000, function () {
+    console.log('App listening on port 3000!')
+  })
+} else {
+  module.exports = server
+}

@@ -60,8 +60,8 @@ block content
       hr
 
   .row
-    form.container-fluid.row(action=`/post/${_id}` method="post")
-      textarea.form-control.row(name="message" placeholder="Enter your comment")
+    form#submitComment.container-fluid.row(action=`/post/${_id}` method="post")
+      textarea.form-control.row(name="message" placeholder="Enter your comment"  id='commentInput')
       button
         | Add comment
 

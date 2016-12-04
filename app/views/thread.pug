@@ -2,6 +2,7 @@ extends base-layout
 
 block head
   link(rel="stylesheet" href="/components/bootstrap-css-only/css/bootstrap.css")
+  link(rel='stylesheet', href='/css/alert.css')
 
 block content
   h2
@@ -35,7 +36,10 @@ block content
     each error in errors
       h3= error.msg
   if user
-    form.container-fluid.row(action='/forum/' + result._id method="post")
-      textarea.form-control.row(name="message" placeholder="Enter your comment")
+    form#submitComment.container-fluid.row(action='/forum/' + result._id method="post")
+      textarea.form-control.row(name="message" placeholder="Enter your comment" id='commentInput')
       button
         | Add comment
+
+block append scripts
+  script(src='/js/create-comment-thread.js')

@@ -1,20 +1,20 @@
 extends base-layout
 
 block append head
-  //- link(rel='stylesheet' href='/css/register.css')
+  link(rel='stylesheet' href='/css/alert.css')
 
 block content
   if success
     h1 Registered!
   if errors
     each error in errors
-      h3= error.msg
+      p.error.alert= error.msg
 
-  form(action='/register', method='post')
+  form#submitRegister(action='/register', method='post')
     .row
       .one-third.column &nbsp;
       .one-third.column
-        input(
+        input.u-full-width(
           type='text'
           id='usernameInput'
           name='username'
@@ -24,7 +24,7 @@ block content
     .row
       .one-third.column &nbsp;
       .one-third.column
-        input(
+        input.u-full-width(
           type='email'
           id='emailInput'
           name='email'
@@ -34,7 +34,7 @@ block content
     .row
       .one-third.column &nbsp;
       .one-third.column
-        input(
+        input.u-full-width(
           type='password'
           id='passwordInput'
           name='password'
@@ -44,12 +44,12 @@ block content
     .row
       .one-third.column &nbsp;
       .one-third.column
-        input(
+        input.u-full-width(
           class='button-primary submit'
           type='submit'
           value='Register'
         )
       .one-third.column &nbsp;
 
-//- block append scripts
-//-   script(src='/js/register.js')
+block append scripts
+  script(src='/js/register.js')

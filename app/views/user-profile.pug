@@ -29,5 +29,6 @@ block content
           ul
            each post in posts
             li
-              div= post.title
-              img.object-fit_cover.u-full-width(src= post.imgUrls[0])
+              a(href=`/post/${post._id}`)
+                p= post.title
+                img.object-fit_cover.u-full-width(src= post.imgUrls[0])

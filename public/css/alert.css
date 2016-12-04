@@ -1,0 +1,12 @@
+.alert {
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.error{
+  color: red;
+}
+
+.success {
+  color: limegreen;
+}

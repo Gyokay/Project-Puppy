@@ -57,7 +57,7 @@ router
   // })
 
   .get('/create', (req, res) => {
-    res.render('createThread');
+    res.render('create-thread');
   })
   .get('/search', (req, res) => {
     let title = req.query.title;

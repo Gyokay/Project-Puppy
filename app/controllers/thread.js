@@ -8,7 +8,6 @@ const DEFAULT_PAGE = 1,
 router
   .get('/', (req, res) => {
     let page = Number(req.query.page || DEFAULT_PAGE);
-
     db.Thread.getThreads({page, pageSize: PAGE_SIZE})
       .then((result => {
         let {
@@ -80,11 +79,12 @@ router
   })
   .get('/:id', (req, res) => {
     let id = req.params.id;
+    let user = req.user || {user: {role: 'guest'}};
     db.Thread.getThreadById(id)
       .then((thread) => {
         res.render('thread', {
           result: thread,
-          user: req.user,
+          user: user,
           errors: req.session.errors
         });
         req.session.errors = [];
@@ -142,7 +142,7 @@ router
     let message = req.body.message;
 
     db.Thread.getThreadByIdAndUpdateMessages(id, answerId, message)
-      .then((thread)=>{
+      .then((thread) => {
         res.redirect(`/forum/${id}/`);
       })
   })

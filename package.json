@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "mocha tests/*/*.js"
+    "test": "mocha tests/*/*.js",
+    "postinstall": "bower install"
   },
   "engines": {
     "node": "6.9.1"

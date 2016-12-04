@@ -159,6 +159,8 @@ router.get('/:postId', (req, res) => {
                     isOwner,
                     _id: post._id
                 })
+                req.session.errors = [];
+                req.session.save();
             })
     })
     .post('/:postId', (req, res) => {

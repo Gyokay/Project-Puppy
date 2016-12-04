@@ -22,6 +22,12 @@ block content
                 a.button.button-primary(
                     href=`/chat/${username}`
                 ) Contact
-
-block append scripts
-    script(src='/js/view-post.js')
+    .row
+      h1 #{username}'s posts
+      each post in posts
+        li.list-group-item
+          div= post.title
+          hr
+          div
+            img.object-fit_cover.u-full-width(src= post.imgUrls[0])
+        hr

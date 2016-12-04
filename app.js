@@ -20,7 +20,7 @@ const options = {
 }
 
 // producton db connection string
-// mongodb://puppy:project-puppy@ds163667.mlab.com:63667/projectpuppy
+// const mongodbUri = 'mongodb://puppy:project-puppy@ds163667.mlab.com:63667/projectpuppy'
 const mongodbUri = 'mongodb://localhost/ProjectPuppyDB'
 mongoose.connect(mongodbUri, options)
 

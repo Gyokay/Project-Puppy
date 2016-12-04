@@ -58,12 +58,12 @@ block content
             span= mes.user
           |  on #{mes.date.toLocaleString()}
       hr
-
-  .row
-    form#submitComment.container-fluid.row(action=`/post/${_id}` method="post")
-      textarea.form-control.row(name="message" placeholder="Enter your comment"  id='commentInput')
-      button
-        | Add comment
+  if user
+    .row
+      form#submitComment.container-fluid.row(action=`/post/${_id}` method="post")
+        textarea.form-control.row(name="message" placeholder="Enter your comment"  id='commentInput')
+        button
+          | Add comment
 
 block append scripts
   script(src='/components/imageviewer/dist/viewer.js')

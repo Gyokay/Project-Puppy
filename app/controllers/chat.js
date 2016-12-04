@@ -13,6 +13,7 @@ router.get('/', (req, res) => {
   if (req.session.receiver) {
     uniqueUsernames.add(req.session.receiver)
     req.session.receiver = null
+    req.session.save()
   }
 
   db.Message.getAllUniqueSenderNamesByReceaver(req.user.username)

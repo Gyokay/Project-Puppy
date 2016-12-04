@@ -15,6 +15,10 @@ router.get('/', (req, res) => {
 
 // damn big controller
 router.post('/', (req, res) => {
+  req.sanitize('username').trim()
+  req.sanitize('email').trim()
+  req.sanitize('password').trim()
+
   req.checkBody('username', 'Username must be in the rang 6 - 20 characters')
     .len(6, 20)
 

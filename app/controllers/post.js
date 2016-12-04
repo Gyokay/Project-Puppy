@@ -36,6 +36,9 @@ router.post('/create-post',
       return
     }
 
+    req.sanitize('title').trim()
+    req.sanitize('description').trim()
+
     // Validation
     req.checkBody('title', 'Title must be between ' + constants.minPostTitleLenght + ' and ' + constants.maxPostTitleLenght + ' characters')
       .len(constants.minPostTitleLenght, constants.maxPostTitleLenght)

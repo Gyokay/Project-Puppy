@@ -38,8 +38,8 @@ module.exports = {
         if (err) {
           return reject(err);
         }
-
-        thread.messages.push({user, content, date});
+        let answerId = thread.messages.length;
+        thread.messages.push({answerId, user, content, date});
         return thread.save(thread)
           .then(resolve)
           .catch(reject);
@@ -122,11 +122,11 @@ module.exports = {
       })
     })
   },
-  getThreadByIdAndUpdateMessages(id, date, message){
+  getThreadByIdAndUpdateMessages(id, answerId, message){
     return new Promise((resolve, reject) => {
       Thread.findOneAndUpdate(
-        {_id: id, "messages": {date}},
-        {$set: {"messages$": {content: {message: message}}}},
+        {_id: id, "messages.answerId": answerId},
+        { $set: { "messages.$.content" : {message: message}} },
         {new: true},
         (err, thread) => {
           if (err) {

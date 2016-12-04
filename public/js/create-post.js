@@ -65,15 +65,18 @@ $(function () {
       }
     }
 
+    $('.error').remove()
+
     if (Array.from(errors).length > 0) {
       e.preventDefault()
 
-      $('.error').remove()
       errors.forEach(function (error) {
-        $('.pageTitle').after(`<p class='error'>${error}</p>`)
+        $('.pageTitle').after(`<p class='error alert'>${error}</p>`)
       })
 
       errors.clear()
+    } else {
+      $('.pageTitle').after("<p class='success alert'>Uploading images...</p>")
     }
   })
 })

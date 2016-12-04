@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
     res.redirect('/home')
   }
 
-  res.render('register', { success: req.session.success, errors: req.session.errors })
+  res.render('register', { errors: req.session.errors })
   req.session.destroy()
 })
 

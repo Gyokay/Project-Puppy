@@ -1,9 +1,11 @@
 extends base-layout
 
 block append head
-  //- link(rel='stylesheet' href='/components/css/register.css')
+  link(rel='stylesheet' href='/css/alert.css')
 
 block content
+  if success
+    p.success.alert= 'Success! You can now login.'
   if hasMesseges
     each msg in messeges
       h1= msg
@@ -12,7 +14,7 @@ block content
     .row
       .one-third.column &nbsp;
       .one-third.column
-        input(
+        input.u-full-width(
           type='text'
           id='usernameInput'
           name='username'
@@ -22,7 +24,7 @@ block content
     .row
       .one-third.column &nbsp;
       .one-third.column
-        input(
+        input.u-full-width(
           type='password'
           id='passwordInput'
           name='password'
@@ -32,12 +34,12 @@ block content
     .row
       .one-third.column &nbsp;
       .one-third.column
-        input(
+        input.u-full-width(
           class='button-primary submit'
           type='submit'
           value='Login'
         )
       .one-third.column &nbsp;
-    
+
 //- block append scripts
 //-   script(src='/js/register.js')

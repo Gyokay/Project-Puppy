@@ -3,6 +3,8 @@ extends base-layout
 block content
   h2
     a(href='/forum') Forum
+  if user.role == 'admin'
+    a(href=`/forum/${result._id}/modify`) Modify
   div.container-fluid.list-group
     h3.row.list-group-item= result.title
     div.row.list-group-item

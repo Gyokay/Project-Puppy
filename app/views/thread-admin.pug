@@ -1,0 +1,32 @@
+extends base-layout
+
+block content
+  h2
+    a(href='/forum') Forum
+  div.container-fluid.list-group
+   form(action=`/forum/${id}/modify/` method='POST')
+    textarea(name='title').row.list-group-item= result.title
+    div.row.list-group-item
+      textarea(name='content').list-group-item.col-md-12= result.content
+      hr.dl-horizontal
+      div
+        | Posted by
+        a(href=`/user/${result.username}`)
+          span= result.username
+        |  on #{result.dateTime.toLocaleString()}
+    button Submit changes
+    h3 Answers
+    div.container-fluid.list-group
+   ul.row
+   -for(var i=0; i < result.messages.length; i+=1)
+    form(action=`/forum/${id}/modify/` method='POST')
+     li.list-group-item
+       textarea(name=`message=${i}`).list-group-item.col-md-12= result.messages[i].content.message
+       hr
+       div
+         | Posted by
+         a(href=`/user/${result.messages[i].user}`)
+           span= result.messages[i].user
+         |  on #{result.messages[i].date.toLocaleString()}
+       hr
+     button Submit changes

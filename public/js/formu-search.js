@@ -1,40 +1,20 @@
 $(function () {
-    const minCommentLength = 1,
-        maxCommentLength = 300,       
+    const minTitleLength = 1,
+        maxTitleLength = 30,       
         msgError = 'The {0} must be between {1} and {2} characters long!',
         errorHtmlTag = '<p class=\'error alert\'>{0}</p>';
 
     let errors = [];
 
-  $('#archive').click(function () {
-    $.ajax({
-      url: '/api/post/archive',
-      method: 'POST',
-      dataType: 'json',
-      data: {
-        postId: window.location.pathname.split('/').pop()
-      },
-      success: function (post) {
-        if (post.ok) {
-          $('#archive').replaceWith("<p class='alert success'>Successfully archived post</p>")
-        }
-      }
-    })
-  })
-
-  // imageviewer
-  $.fn.viewer
-  $('.images').viewer();
-
-    $('#submitComment').submit(function (e){
+    $('#submitSearch').submit(function (e){
         // Get value
-        let comment = $('#commentInput').val();
+        let title = $('#searchInput').val();
 
         // Remove errors if any
         $('.error').remove();
 
         // Validate on submit
-        validateLength(minCommentLength, maxCommentLength, comment.length, 'Comment');
+        validateLength(minTitleLength, maxTitleLength, title.length, 'search length');
         
         // Show errors
         if (Array.from(errors).length > 0) {
@@ -60,5 +40,5 @@ $(function () {
             source = source.replace(new RegExp("\\{" + i + "\\}", "g"), n);
         });
         return source;
-    }  
+    }
 });

@@ -2,14 +2,15 @@ extends base-layout
 
 block head
   link(rel="stylesheet" href="/components/bootstrap-css-only/css/bootstrap.css")
+  link(rel='stylesheet', href='/css/alert.css')
 
 block content
   h1 Welcome to the Pet Adoption Forum
   div.container-fluid.row
     if user.user
       a.btn.btn-primary.col-md-2(href='/forum/create') Create new topic
-    form.col-md-10(action="/forum/search" method="GET")
-      input(type="text" name="title" placeholder="Search")
+    form#submitSearch.col-md-10(action="/forum/search" method="GET")
+      input(type="text" name="title" placeholder="Search" id="searchInput")
       button Search
   ul.container-fluid.list-group
   each thread in result.threads
@@ -30,3 +31,6 @@ block content
         else
           a.btn.btn-default(href="/forum?page=" + i)
             = i
+
+block append scripts
+  script(src='/js/formu-search.js')

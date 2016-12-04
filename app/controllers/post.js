@@ -145,6 +145,7 @@ router.get('/:postId', (req, res) => {
                 }
 
                 res.render('view-post', {
+                    errors: req.session.errors,
                     user: req.user,
                     title: post.title,
                     description: post.description,
@@ -162,6 +163,23 @@ router.get('/:postId', (req, res) => {
     })
     .post('/:postId', (req, res) => {
         let id = req.params.postId
+
+        if (!req.isAuthenticated()) {
+            res.redirect('/login');
+            return;
+        }
+
+        req.checkBody('message', 'Comment must be between 6 - 500 characters')
+            .len(6, 500);
+
+        let errors = req.validationErrors();
+
+        if (errors) {
+            req.session.errors = errors;
+            res.redirect(`/post/${id}`);
+            return;
+        }
+
         let user = req.user.username
         let content = req.body
         db.Post.addMessageToPostById(

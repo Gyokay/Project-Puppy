@@ -48,6 +48,7 @@ block content
       p= description
 
   .row
+    h3 Answers
     each mes in messages
       li.list-group-item
         div= mes.content.message
@@ -60,6 +61,9 @@ block content
       hr
   if user
     .row
+      if errors
+       each error in errors
+        h3= error.msg
       form#submitComment.container-fluid.row(action=`/post/${_id}` method="post")
         textarea.form-control.row(name="message" placeholder="Enter your comment"  id='commentInput')
         button
@@ -68,3 +72,4 @@ block content
 block append scripts
   script(src='/components/imageviewer/dist/viewer.js')
   script(src='/js/view-post.js')
+  script(src='/js/create-comment-thread.js')

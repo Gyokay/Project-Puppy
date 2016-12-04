@@ -47,15 +47,6 @@ router
           .send(err);
       })
   })
-  // (req, res) => {
-  // db.Thread.getAllThreads()
-  //   .then((threads) => {
-  //     res.render('forum', {
-  //       result: threads
-  //     });
-  //   })
-  // })
-
   .get('/create', (req, res) => {
     res.render('create-thread', {success: req.session.success, errors: req.session.errors});
     req.session.errors = [];
@@ -64,12 +55,11 @@ router
   .get('/search', (req, res) => {
     let title = req.query.title;
     let page = Number(req.query.page || DEFAULT_PAGE);
-    let user = req.user;
     db.Thread.searchThreads(title, page, PAGE_SIZE)
       .then((threads) => {
         res.render('forum', {
           result: {threads},
-          user: user
+          user: {user: req.user}
         });
       })
   })

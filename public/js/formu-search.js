@@ -1,6 +1,6 @@
 $(function () {
     const minTitleLength = 1,
-        maxTitleLength = 30,       
+        maxTitleLength = 60,       
         msgError = 'The {0} must be between {1} and {2} characters long!',
         errorHtmlTag = '<p class=\'error alert\'>{0}</p>';
 
@@ -8,7 +8,7 @@ $(function () {
 
     $('#submitSearch').submit(function (e){
         // Get value
-        let title = $('#searchInput').val();
+        let title = $('#searchInput').val().trim();
 
         // Remove errors if any
         $('.error').remove();

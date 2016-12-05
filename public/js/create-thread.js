@@ -1,8 +1,8 @@
 $(function () {
-    const minTitleLength = 2,
-        maxTitleLength = 30,
-        minDescriptionLength = 2,
-        maxDescriptionLength = 300,
+    const minTitleLength = 6,
+        maxTitleLength = 50,
+        minDescriptionLength = 6,
+        maxDescriptionLength = 500,
         msgError = 'The {0} must be between {1} and {2} characters long!',
         errorHtmlTag = '<p class=\'error alert\'>{0}</p>';
 
@@ -10,8 +10,8 @@ $(function () {
 
     $('#submitPost').submit(function (e){
         // Get value
-        let title = $('#titleInput').val(),
-        description = $('#descriptionInput').val();
+        let title = $('#titleInput').val().trim(),
+        description = $('#descriptionInput').val().trim();
 
         // Remove errors if any
         $('.error').remove();

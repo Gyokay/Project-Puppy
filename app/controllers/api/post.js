@@ -78,11 +78,16 @@ router.post('/archive', (req, res) => {
 // populate DB with posts
 // for testing purposes
 router.get('/populate', (req, res) => {
+  if (!req.isAuthenticated()) {
+    res.json({ error: 'Not authenticated' })
+    return
+  }
+
   let postsCount = 100
 
   for (let i = 0; i < postsCount; i += 1) {
     db.Post.insertPost(
-      'user',
+      req.user.username,
       'title' + i,
       'simple description',
       'Sofia',

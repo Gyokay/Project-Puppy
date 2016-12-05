@@ -8,7 +8,11 @@ router.get('/', (req, res) => {
   }
 
   let messeges = req.flash('error')
-  res.render('login', { success: req.session.success, messeges, hasMesseges: messeges.length > 0 })
+  res.render('login', {
+    success: req.session.success,
+    messeges,
+    hasMesseges: messeges.length > 0
+  })
   req.session.destroy()
 })
 

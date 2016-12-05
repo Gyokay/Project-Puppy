@@ -3,7 +3,6 @@ $(function () {
   let chatSound = new Audio('/audio/pop.mp3')
   let receiver
 
-
   $(document).on('click', '.receiver', function (event) {
     if (receiver === $(event.target).text()) {
       return
@@ -27,13 +26,12 @@ $(function () {
         receiver
       },
       success: function (messages) {
-        // console.log(messages)
         appendMessages(messages)
       }
     })
   })
 
-  function getNewMessagesCount(senders) {
+  function getNewMessagesCount (senders) {
     if (!senders) {
       return
     }
@@ -51,7 +49,7 @@ $(function () {
     })
   }
 
-  function appendUnseenCount(data) {
+  function appendUnseenCount (data) {
     data.forEach(function (item) {
       let currentElement = $('.receiver').filter(function () {
         return $(this).text() === item.sender && item.count > 0
@@ -63,14 +61,13 @@ $(function () {
 
   getNewMessagesCount(getAllSenderUsernames())
 
-  function getAllSenderUsernames() {
+  function getAllSenderUsernames () {
     let senderUsernames = []
 
     $('.receiver').each(function (index, element) {
       senderUsernames.push($(element).text())
     })
 
-    // console.log(senderUsernames)
     return senderUsernames
   }
 
@@ -93,7 +90,6 @@ $(function () {
 
       $target.val('')
 
-      // console.log($(e.target).val())
       socket.emit('send message', { receiver, message })
 
       appendSingleMessage({ receiver, message, sentOn: new Date() })
@@ -114,15 +110,13 @@ $(function () {
         addReceiverButton(message.sender, true)
       }
 
-      // console.log(currentReceiver)
       return
     }
 
-    // console.log(message)
     appendSingleMessage(message)
   })
 
-  function appendMessages(messages) {
+  function appendMessages (messages) {
     messages.forEach(function (message) {
       appendSingleMessage(message)
     })
@@ -130,15 +124,11 @@ $(function () {
     $('.send').css('visibility', 'visible')
   }
 
-  function appendSingleMessage(message) {
+  function appendSingleMessage (message) {
     let $li = $('<li></li>')
     let $msgContainer = $('<div></div>').addClass('msg')
     let $msg = $('<p></p>').text(message.message)
     let $time = $('<time></time>').text(message.sentOn.toLocaleString())
-    // console.log(message.time)
-    // if (!message.receiver) {
-    //   $li.addClass('self')
-    // }
 
     if (message.receiver === receiver) {
       $li.addClass('self')
@@ -154,7 +144,7 @@ $(function () {
     scrollToBotton()
   }
 
-  function scrollToBotton() {
+  function scrollToBotton () {
     $('#chat').scrollTop(10000)
   }
 
@@ -179,7 +169,6 @@ $(function () {
         substring
       },
       success: function (usernames) {
-        // console.log(usernames)
         let isSingle = false
 
         if (usernames.length === 1) {
@@ -220,8 +209,6 @@ $(function () {
       return
     }
 
-    // console.log(isPresent)
-
     if (isPresent.length > 0) {
       return
     }
@@ -229,7 +216,7 @@ $(function () {
     addReceiverButton($target.val())
   })
 
-  function addReceiverButton(username, isNewMessage) {
+  function addReceiverButton (username, isNewMessage) {
     let $pEl = $('<button></button>').addClass('receiver button').text(username)
 
     if (isNewMessage) {

@@ -3,10 +3,6 @@ const router = express.Router()
 
 const db = require('../../data')
 
-// module.exports = function (db) {
-//   return router
-// }
-
 const numberOfResultsPerReqest = 3
 
 router.post('/get-latest', (req, res) => {

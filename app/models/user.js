@@ -18,7 +18,7 @@ let userSchema = new Schema({
     type: String,
     required: true
   },
-  role:{
+  role: {
     type: String,
     default: 'user'
   }

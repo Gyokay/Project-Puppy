@@ -6,7 +6,7 @@ module.exports = function (options) {
   }
 
   return {
-    insertUser(username, email, password) {
+    insertUser (username, email, password) {
       return new Promise((resolve, reject) => {
         let newUser = new options.User({
           username,
@@ -21,7 +21,7 @@ module.exports = function (options) {
         })
       })
     },
-    getUserByUsername(username) {
+    getUserByUsername (username) {
       return new Promise((resolve, reject) => {
         options.User.findOne({ username }, (err, user) => {
           if (err) {
@@ -31,7 +31,7 @@ module.exports = function (options) {
         })
       })
     },
-    getUsernamesBySubstring(substring) {
+    getUsernamesBySubstring (substring) {
       return new Promise((resolve, reject) => {
         options.User.find({ username: new RegExp(substring, 'i') })
           .select('username')
@@ -43,7 +43,7 @@ module.exports = function (options) {
           })
       })
     },
-    getUserByEmail(email) {
+    getUserByEmail (email) {
       return new Promise((resolve, reject) => {
         options.User.findOne({ email }, (err, users) => {
           if (err) {
@@ -56,17 +56,3 @@ module.exports = function (options) {
 
   }
 }
-// const User = require('../models/user')
-
-
-
-
-
-
-// module.exports = {
-//   insertUser,
-//   getUserByUsername,
-//   getUserByEmail,
-//   getUsernamesBySubstring
-// }
-

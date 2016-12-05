@@ -42,8 +42,6 @@ router.post('/', (req, res) => {
       .then(users => {
         let validationErrors = []
 
-        // console.log(users)
-
         if (users[0]) {
           req.session.success = false
           validationErrors.push({ param: 'username', msg: 'This username is already taken ;(', value: users[0].username })

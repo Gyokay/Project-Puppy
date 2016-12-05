@@ -15,7 +15,7 @@ $(function () {
   // poppulate initialy
   getLatest(getLatesApiUrl, { viewedPostsIds })
 
-  function reset() {
+  function reset () {
     viewedPostsIds = []
     noMoreResults = false
 
@@ -23,7 +23,7 @@ $(function () {
     initialPopulateCounter = 0
   }
 
-  function clearPosts() {
+  function clearPosts () {
     $('.postsContainer').empty()
   }
 
@@ -70,7 +70,7 @@ $(function () {
 
   $('.container').append($ticker)
 
-  function getLatest(url, options) {
+  function getLatest (url, options) {
     detachOnScrollevent()
 
     if (noMoreResults) {
@@ -123,12 +123,9 @@ $(function () {
       })
   }
 
-
-  function appendPostsToBody(posts) {
-
+  function appendPostsToBody (posts) {
     let $container = $('.postsContainer')
     let $row = $('<div></div>').addClass('row')
-
 
     posts.forEach(function (post) {
       let $oneThirdColumn = $('<div></div>').addClass('one-third column')
@@ -146,14 +143,13 @@ $(function () {
     })
 
     $container.append($row)
-
   }
 
-  function detachOnScrollevent() {
+  function detachOnScrollevent () {
     $(window).off('scroll')
   }
 
-  function attachOnScrollEvent(url, options) {
+  function attachOnScrollEvent (url, options) {
     // loads new elements when scrolled to he bottom of the page
     $(window).on('scroll', function () {
       if ($(window).scrollTop() + $(window).height() === $(document).height()) {
@@ -162,7 +158,7 @@ $(function () {
     })
   }
 
-  function makeRequest(url, data) {
+  function makeRequest (url, data) {
     return new Promise(function (resolve, reject) {
       $.ajax({
         url,

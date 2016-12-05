@@ -1,6 +1,4 @@
 const db = require('../data')
-// const request = require('request')
-// const timer = require('timers')
 let connectedUsers = {}
 
 module.exports = (server, sessionStore, cookieParser) => {
@@ -16,10 +14,7 @@ module.exports = (server, sessionStore, cookieParser) => {
 
 
   io.on('connection', socket => {
-    // console.log(socket.request.user.username)
     if (socket.request.isAuthenticated()) {
-      // console.log(socket.request.sessionID)
-      // console.log(socket.request.user.username)
       if (!connectedUsers[socket.request.user.username]) {
         connectedUsers[socket.request.user.username] = {
           socket,
@@ -27,37 +22,11 @@ module.exports = (server, sessionStore, cookieParser) => {
         }
       }
 
-      // let ip
-      // if (socket.request.headers['x-forwarded-for']) {
-      //   ip = socket.request.headers['x-forwarded-for'].split(',')[0]
-      // } else if (socket.request.connection && socket.request.connection.remoteAddress) {
-      //   ip = socket.request.connection.remoteAddress
-      // } else {
-      //   ip = socket.request.ip
-      // }
-
-      // request.get(`https://freegeoip.net/json/${ip}`, (err, res, body) => {
-      //   if (err || res.statusCode !== 200) {
-      //     return
-      //   }
-
-      //   let userCity = body.city
-
-      //   if (userCity === '') {
-      //     return
-      //   }
-
-      //   connectedUsers[socket.request.user.username].location = userCity
-      // })
-
       db.Message.getUnseenMessagesCountByReceiver(socket.request.user.username)
         .then(count => {
           socket.emit('new messages count', count)
-          // console.log(count)
         })
     }
-
-    // console.log(connectedUsers.request.user.username)
 
     socket.on('send message', data => {
       // chech if such user exists
@@ -67,7 +36,6 @@ module.exports = (server, sessionStore, cookieParser) => {
             console.log('No such receiver username!')
             return
           }
-          // console.log(data)
 
           if (connectedUsers[data.receiver]) {
             connectedUsers[data.receiver].socket
@@ -95,9 +63,7 @@ module.exports = (server, sessionStore, cookieParser) => {
     })
 
     socket.on('disconnect', () => {
-      // console.log(socket.request.user.username)
       delete connectedUsers[socket.request.user.username]
-      // console.log(connectedUsers)
     })
   })
 }

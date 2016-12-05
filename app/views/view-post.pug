@@ -23,6 +23,9 @@ block content
               img.object-fit_cover.u-full-width(
                 src= url
               )
+          if !imgUrls.length
+            p.alert.gray No images
+
     .four.columns.u-max-fullwidth
       if isOwner && !isArchived
         button#archive.button Archive post

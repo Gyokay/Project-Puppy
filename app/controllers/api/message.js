@@ -26,4 +26,26 @@ router.post('/getConversation', (req, res) => {
     })
 })
 
+router.post('/get-new-message-count', (req, res) => {
+  if (!req.isAuthenticated()) {
+    res.json({ error: 'not authenticated' })
+    return
+  }
+
+  let promises = []
+  let countsBySenders = []
+
+  req.body['senders[]'].forEach(sender => {
+    promises.push(db.Message.getAllUnseenCountBySenderAndReceiver(sender, req.user.username)
+      .then(count => {
+        countsBySenders.push({ sender, count })
+      }))
+  })
+
+  Promise.all(promises)
+    .then(() => {
+      res.json(countsBySenders)
+    })
+})
+
 module.exports = router

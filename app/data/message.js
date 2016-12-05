@@ -119,6 +119,19 @@ module.exports = options => {
             resolve(messags)
           })
       })
+    },
+
+    getAllUnseenCountBySenderAndReceiver (sender, receiver) {
+      return new Promise((resolve, reject) => {
+        options.Message.count()
+          .where({ isSeen: false, receiver, sender })
+          .exec((err, count) => {
+            if (err) {
+              console.log(err)
+            }
+            resolve(count)
+          })
+      })
     }
   }
 }

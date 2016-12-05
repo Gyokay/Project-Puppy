@@ -10,8 +10,8 @@ $(function () {
     $('.receiver').removeClass('button-primary')
 
     $(event.target)
-    .removeClass('newMessage')
-    .addClass('button-primary')
+      .removeClass('newMessage')
+      .addClass('button-primary')
 
     $('#chat').empty()
 
@@ -30,6 +30,42 @@ $(function () {
       }
     })
   })
+
+  function getNewMessagesCount (senders) {
+    $.ajax({
+      url: '/api/message/get-new-message-count',
+      method: 'POST',
+      dataType: 'json',
+      data: {
+        senders
+      },
+      success: function (data) {
+        appendUnseenCount(data)
+      }
+    })
+  }
+
+  function appendUnseenCount (data) {
+    data.forEach(function (item) {
+      let currentElement = $('.receiver').filter(function () {
+        return $(this).text() === item.sender && item.count > 0
+      })
+
+      currentElement.addClass('newMessage')
+    })
+  }
+
+  getNewMessagesCount(getAllSenderUsernames())
+
+  function getAllSenderUsernames () {
+    let senderUsernames = []
+
+    $('.receiver').each(function (index, element) {
+      senderUsernames.push($(element).text())
+    })
+
+    return senderUsernames
+  }
 
   $(window).focus(function () {
     if (!receiver) {

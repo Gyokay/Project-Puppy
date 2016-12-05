@@ -1,34 +1,35 @@
 extends base-layout
 
 block append head
+  title Project Puppy / Profile
   link(rel='stylesheet' href='/css/view-post.css')
 
 block content
 
-    .row
-        .postTitle.twelve.columns
-            h2 User profile of: #{username}
+  .row
+    .postTitle.twelve.columns
+      h2 User profile of: #{username}
 
-    .row
-     .col
-        .six.columns.u-pull-left
-            ul
-                li Username:
-                        p= username
-                li Email:
-                    p= email
+  .row
+    .col
+      .six.columns.u-pull-left
+        ul
+          li Username:
+            p= username
+          li Email:
+            p= email
 
-            if !isOwner
-                a.button.button-primary(
-                    href=`/chat/${username}`
-                ) Contact
-     .col
-       .six.columns
-         h4 #{username}'s posts
-         div.container
+        if !isOwner
+          a.button.button-primary(
+            href=`/chat/${username}`
+          ) Contact
+    .col
+      .six.columns
+        h4 #{username}'s posts
+        div.container
           ul
-           each post in posts
-            li
-              a(href=`/post/${post._id}`)
-                p= post.title
-                img.object-fit_cover.u-full-width(src= post.imgUrls[0])
+            each post in posts
+              li
+                a(href=`/post/${post._id}`)
+                  p= post.title
+                  img.object-fit_cover.u-full-width(src= post.imgUrls[0])

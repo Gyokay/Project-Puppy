@@ -2,6 +2,11 @@
   object-fit: cover
 }
 
+a {
+  text-decoration: none;
+}
+
+
 /* Larger than mobile */
 @media (max-width: 540px) {
   .column {

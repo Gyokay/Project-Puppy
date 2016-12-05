@@ -32,10 +32,18 @@ router.post('/get-new-message-count', (req, res) => {
     return
   }
 
+  let senders = req.body['senders[]']
+  let sendersArr = []
+
   let promises = []
   let countsBySenders = []
 
-  req.body['senders[]'].forEach(sender => {
+  if (!Array.isArray(senders)) {
+    sendersArr.push(senders)
+    senders = sendersArr
+  }
+
+  senders.forEach(sender => {
     promises.push(db.Message.getAllUnseenCountBySenderAndReceiver(sender, req.user.username)
       .then(count => {
         countsBySenders.push({ sender, count })

@@ -1,11 +1,10 @@
-const mongoose = require('mongoose');
-const regex = require('mongoose-regex');
+const mongoose = require('mongoose')
+const regex = require('mongoose-regex')
 
 let threadSchrema = new mongoose.Schema({
   title: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   content: {
     type: String,
@@ -20,10 +19,10 @@ let threadSchrema = new mongoose.Schema({
     required: true
   },
   messages: []
-});
+})
 
-threadSchrema.plugin(regex);
-threadSchrema.index({title: 'text'});
-mongoose.model("Thread", threadSchrema);
+threadSchrema.plugin(regex)
+threadSchrema.index({title: 'text'})
+mongoose.model('Thread', threadSchrema)
 
-module.exports = mongoose.model("Thread");
+module.exports = mongoose.model('Thread')

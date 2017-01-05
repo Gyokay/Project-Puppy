@@ -1,8 +1,0 @@
-front end:
-	-register page:
-		*client side validation
-		*encrypt user password
-		*better design
-
-back end:
-	
